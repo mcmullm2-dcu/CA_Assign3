@@ -69,7 +69,7 @@ create table availability (
   day_of_week tinyint unsigned not null,
   start_at time not null,
   end_at time not null,
-  stream_count unsigned int not null default 1,
+  stream_count int unsigned not null default 1,
   constraint availability_pk primary key (id),
   constraint fk_availability_process foreign key (process_id) references process (id),
   check (stream_count >= 1)
@@ -86,7 +86,7 @@ create table workflow_process (
   workflow_id int not null,
   process_id int not null,
   sequence int not null,
-  estimated_time unsigned int not null, -- in seconds
+  estimated_time int unsigned not null, -- in seconds
   constraint workflow_process_pk primary key (workflow_id, process_id, sequence),
   constraint fk_workflow_process_workflow foreign key (workflow_id) references workflow (id),
   constraint fk_workflow_process_process foreign key (process_id) references process (id)
@@ -102,7 +102,7 @@ create table process_role (
 
 create table job_schedule (
   job_no varchar(32) not null,
-  sequence unsigned int not null,
+  sequence int unsigned not null,
   process_id int not null,
   scheduled_start datetime,
   scheduled_end datetime,
@@ -325,29 +325,6 @@ insert into process_label (process_id, label_id) values (5, 3);
 -- =======================================================================
 -- Process Roles
 -- =======================================================================
-insert into process (name, active) values ('Design', true);1
-insert into process (name, active) values ('Structural', true);2
-insert into process (name, active) values ('Prepress', true);3
-insert into process (name, active) values ('LF Printer A', true);4
-insert into process (name, active) values ('LF Printer B', true);5
-insert into process (name, active) values ('SF Printer', true);6
-insert into process (name, active) values ('Finishing', true);7
-insert into process (name, active) values ('Kitting', true);8
-insert into process (name, active) values ('Despatch', true);9
-
-
-insert into role (name) values ('Admin');1
-insert into role (name) values ('Structural Department');2
-insert into role (name) values ('Design Department');3
-insert into role (name) values ('Prepress Operators');4
-insert into role (name) values ('Printer A Operators');5
-insert into role (name) values ('Printer B Operators');6
-insert into role (name) values ('Small Format Printer Operators');7
-insert into role (name) values ('Finishing Department');8
-insert into role (name) values ('Kitting Department');9
-insert into role (name) values ('Despatch');10
-insert into role (name) values ('Account Manager');11
-
 insert into process_role (process_id, role_id) values (1,1);
 insert into process_role (process_id, role_id) values (2,1);
 insert into process_role (process_id, role_id) values (3,1);
@@ -434,11 +411,11 @@ insert into availability (process_id, day_of_week, start_at, end_at, stream_coun
 -- =======================================================================
 -- Workflows
 -- =======================================================================
-insert into workflows (name, description) values ('Small Format (general)', 'Used for processing standard small-format printing jobs.');
-insert into workflows (name, description) values ('Large Format A', 'Used for processing standard large-format printing jobs using Printer A.');
-insert into workflows (name, description) values ('Large Format B', 'Used for processing standard large-format printing jobs using Printer B.');
-insert into workflows (name, description) values ('Free-Standing Units (artwork supplied)', 'Used for processing customer-supplied artwork for creating FSDUs.');
-insert into workflows (name, description) values ('Free-Standing Units (no artwork supplied)', 'Used for processing FSDUs where no customer artwork has been supplied.');
+insert into workflow (name, description) values ('Small Format (general)', 'Used for processing standard small-format printing jobs.');
+insert into workflow (name, description) values ('Large Format A', 'Used for processing standard large-format printing jobs using Printer A.');
+insert into workflow (name, description) values ('Large Format B', 'Used for processing standard large-format printing jobs using Printer B.');
+insert into workflow (name, description) values ('Free-Standing Units (artwork supplied)', 'Used for processing customer-supplied artwork for creating FSDUs.');
+insert into workflow (name, description) values ('Free-Standing Units (no artwork supplied)', 'Used for processing FSDUs where no customer artwork has been supplied.');
 
 -- =======================================================================
 -- Workflow Processes

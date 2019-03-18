@@ -1,7 +1,18 @@
 <?php namespace Assign3;
 
+/**
+ * MySQL implementation of UserDB methods.
+ */
 class SQLUser implements UserDB
 {
+    /**
+     * Given the user's credentials, attempt to log a user into the system.
+     *
+     * @param string $email The user's email address.
+     * @param string $password The user's password.
+     *
+     * @return User A populated User object if successful, or null.
+     */
     public function loginUser($email, $password)
     {
         $error = '';

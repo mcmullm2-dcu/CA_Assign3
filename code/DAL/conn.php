@@ -1,5 +1,8 @@
 <?php namespace Assign3;
 
+/**
+ * Get a MySQL database connection.
+ */
 function getDbConnection()
 {
     $user='michael';

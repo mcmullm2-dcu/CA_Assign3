@@ -1,7 +1,14 @@
 <?php namespace Assign3;
+
 session_start();
 
-include "DAL/conn.php";
+include_once("utilities.php");
+include_once("interfaces/DB.php");
+include_once("DAL/SQLDB.php");
+include_once("models/user.php");
+
+$db = new SQLDB();
+$user = User::getUserFromSession();
 ?>
 <!DOCTYPE html>
 <html lang="en">

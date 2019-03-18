@@ -1,5 +1,8 @@
 <?php namespace Assign3;
 
+/**
+ * Class to store the availability details of a process.
+ */
 class Availability
 {
     public $id;
@@ -9,6 +12,9 @@ class Availability
     public $endTime;
     public $streamCount;
 
+    /**
+     * Constructor that creates a new instance of a Availability object.
+     */
     public function __construct($id, $process, $dayOfWeek, $endTime, $streamCount)
     {
         $this->id = $id;

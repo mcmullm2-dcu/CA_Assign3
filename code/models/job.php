@@ -1,5 +1,8 @@
 <?php namespace Assign3;
 
+/**
+ * Class to store a job's details.
+ */
 class Job
 {
     public $jobNo;
@@ -8,6 +11,9 @@ class Job
     public $deadline;
     public $isComplete;
 
+    /**
+     * Constructor that creates a new instance of a Job object.
+     */
     public function __construct($jobNo, $customer, $title, $deadline, $isComplete)
     {
         $this->jobNo = $jobNo;

@@ -1,0 +1,12 @@
+h1 {
+    font-family: 'Cinzel', serif;
+    text-transform: uppercase;
+    text-align: center;
+    padding: 0.5em 0;
+    border-bottom: 1px solid #000;
+    margin-bottom: 0.5em;
+}
+
+nav {
+    margin-bottom: 2em;
+}

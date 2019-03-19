@@ -6,6 +6,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $userDb = $db::GetUserDB();
     $result = $userDb::loginUser($_POST['email'], $_POST['password']);
     if (isset($result) && empty($result->status)) {
+        $userDb::getRoles($result);
+        $userDb::getDashboards($result);
         $result->setSessionFromUser();
         header("location: index.php");
     }
@@ -22,7 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <label for="email">Email</label>
             <input type="email" class="form-control" id="email" name="email"
                 placeholder="Enter your email address"<?php
-                if (isset($result->email))
+                if (isset($result) && isset($result->email))
                 {
                     echo ' value="'.$result->email.'"';
                 }

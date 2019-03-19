@@ -48,11 +48,48 @@ class SQLUser implements UserDB
         return $user;
     }
 
+    /**
+     * Given a User, populate all the roles they belong to.
+     */
     public function getRoles($user)
     {
+        if (!isset($user)) {
+            return;
+        }
+
+        $conn = Conn::getDbConnection();
+        $sql = "SELECT r.id, r.name ";
+        $sql .= "FROM user_role ur INNER JOIN role r ON ur.role_id = r.id ";
+        $sql .= "WHERE ur.user_id = $user->id;";
+        $result = mysqli_query($conn, $sql);
+
+        $user->roles = array();
+        while ($role = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+            $newRole = new Role($role['id'], $role['name']);
+            array_push($user->roles, $newRole);
+        }
     }
 
+    /**
+     * Given a User, populate all the dashboards they can access.
+     */
     public function getDashboards($user)
     {
+        if (!isset($user)) {
+            return;
+        }
+
+        $conn = Conn::getDbConnection();
+        $sql = "SELECT d.id, d.name, d.description, d.url ";
+        $sql .= "FROM dashboard d INNER JOIN dashboard_roles dr ON dr.dashboard_id = d.id ";
+        $sql .= "WHERE dr.role_id in (";
+        $sql .= "SELECT u.role_id FROM user_role u WHERE u.user_id = $user->id);";
+        $result = mysqli_query($conn, $sql);
+
+        $user->dashboards = array();
+        while ($dashboard = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+            $newDashboard = new Dashboard($dashboard['id'], $dashboard['name'], $dashboard['description'], $dashboard['url']);
+            array_push($user->dashboards, $newDashboard);
+        }
     }
 }

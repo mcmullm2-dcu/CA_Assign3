@@ -59,4 +59,19 @@ class User
 
         return false;
     }
+
+    /**
+     * Gets the dashboard of the page currently being visited by this user
+     */
+    public function getPageDashboard()
+    {
+        $current_page = basename($_SERVER['PHP_SELF']);
+        foreach ($this->dashboards as $dashboard) {
+            if ($dashboard->url == $current_page) {
+                return $dashboard;
+            }
+        }
+
+        return null;
+    }
 }

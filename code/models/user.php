@@ -41,4 +41,22 @@ class User
     {
         $_SESSION['userData'] = $this;
     }
+
+    /**
+     * Determines whether this user can access the current page.
+     */
+    public function canAccessPage()
+    {
+        if (!isset($this->dashboards) || count($this->dashboards) == 0) {
+            return false;
+        }
+        $current_page = basename($_SERVER['PHP_SELF']);
+        foreach ($this->dashboards as $dashboard) {
+            if ($dashboard->url == $current_page) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

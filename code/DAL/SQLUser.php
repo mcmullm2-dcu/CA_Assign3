@@ -16,7 +16,7 @@ class SQLUser implements UserDB
     public function loginUser($email, $password)
     {
         $error = '';
-        $conn = getDbConnection();
+        $conn = Conn::getDbConnection();
         $email = mysqli_real_escape_string($conn, $email);
         $password = mysqli_real_escape_string($conn, $password);
 

@@ -1,20 +1,31 @@
 <?php namespace Assign3;
 
 /**
- * Get a MySQL database connection.
+ * Class to manage MySQL database connections
  */
-function getDbConnection()
+class Conn
 {
-    $user='michael';
-    $pass='dcu';
-    $host='localhost';
-    $db='assign3';
-    $conn = mysqli_connect($host, $user, $pass, $db);
+    public static $conn;
 
-    if (mysqli_connect_errno()) {
-        printf("Connect failed: %s\n", mysqli_connect_error());
-        exit();
+    /**
+     * Get a MySQL database connection.
+     */
+    public static function getDbConnection()
+    {
+        if (!isset($conn))
+        {
+            $user='michael';
+            $pass='dcu';
+            $host='localhost';
+            $db='assign3';
+            $conn = mysqli_connect($host, $user, $pass, $db);
+
+            if (mysqli_connect_errno()) {
+                printf("Connect failed: %s\n", mysqli_connect_error());
+                exit();
+            }
+        }
+        
+        return $conn;
     }
-    
-    return $conn;
 }

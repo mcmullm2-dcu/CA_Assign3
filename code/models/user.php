@@ -9,6 +9,8 @@ class User
     public $name;
     public $email;
     public $status;
+    public $roles;
+    public $dashboards;
 
     /**
      * Constructor that creates a new instance of a User object.
@@ -25,12 +27,8 @@ class User
      */
     public static function getUserFromSession()
     {
-        if (isset($_SESSION['user_id'])) {
-            $id = $_SESSION['user_id'];
-            $name = $_SESSION['user_name'];
-            $email = $_SESSION['user_email'];
-            $user = new User($id, $name, $email);
-            $user->status = $_SESSION['user_status'];
+        if (isset($_SESSION['userData'])) {
+            $user = $_SESSION['userData'];
             return $user;
         }
         return null;
@@ -41,9 +39,6 @@ class User
      */
     public function setSessionFromUser()
     {
-        $_SESSION['user_id'] = $this->id;
-        $_SESSION['user_name'] = $this->name;
-        $_SESSION['user_email'] = $this->email;
-        $_SESSION['user_status'] = $this->status;
+        $_SESSION['userData'] = $this;
     }
 }

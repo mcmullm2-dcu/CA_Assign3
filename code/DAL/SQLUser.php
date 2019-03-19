@@ -48,11 +48,11 @@ class SQLUser implements UserDB
         return $user;
     }
 
-    public function getRoles($userId)
+    public function getRoles($user)
     {
     }
 
-    public function getDashboards($userId)
+    public function getDashboards($user)
     {
     }
 }

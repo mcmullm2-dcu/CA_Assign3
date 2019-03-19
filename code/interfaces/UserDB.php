@@ -6,6 +6,6 @@
 interface UserDB
 {
     public function loginUser($email, $password);
-    public function getRoles($userId);
-    public function getDashboards($userId);
+    public function getRoles($user);
+    public function getDashboards($user);
 }

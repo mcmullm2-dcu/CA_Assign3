@@ -1,11 +1,11 @@
 <?php namespace Assign3;
 
-session_start();
-
 include_once("utilities.php");
 include_once("interfaces/DB.php");
 include_once("DAL/SQLDB.php");
 include_once("models/user.php");
+
+session_start();
 
 $db = new SQLDB();
 $user = User::getUserFromSession();

@@ -3,9 +3,7 @@
 include_once("utilities.php");
 include_once("interfaces/DB.php");
 include_once("DAL/SQLDB.php");
-include_once("models/user.php");
-include_once("models/role.php");
-include_once("models/dashboard.php");
+include_once("models/models.php");
 
 session_start();
 

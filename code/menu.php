@@ -1,7 +1,7 @@
 <?php namespace Assign3;
 
 ?>
-<ul class="nav nav-pills">
+<ul class="nav py-4">
 <?php
 writeNavLink("index.php", "Home");
 if (isset($user)) {

@@ -24,8 +24,13 @@ $user = User::getUserFromSession();
     <link rel="stylesheet" href="style.css" type="text/css">
 </head>
 <body>
+
 <div class="container">
 <h1>Job Schedules</h1>
-<nav>
+</div>
+<nav class="grey container-fluid">
+<div class="container">
 <?php include 'menu.php' ?>
+</div>
 </nav>
+<div class="container">

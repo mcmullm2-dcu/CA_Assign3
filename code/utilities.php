@@ -13,7 +13,7 @@ function writeNavLink($url, $text)
     echo "\t\n<li class=\"nav-item\">";
     echo "<a href=\"{$url}\" class=\"nav-link";
     if ($url == $current_page) {
-        echo " active";
+        echo " disabled";
     }
     echo "\">{$text}</a></li>";
 }

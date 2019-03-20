@@ -8,6 +8,9 @@ class Process
     public $id;
     public $name;
     public $isActive;
+    public $labels;
+    public $availability;
+    public $roles;
 
     /**
      * Constructor that creates a new instance of a Process object. 

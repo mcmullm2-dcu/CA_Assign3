@@ -71,7 +71,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 
 // Main list of customers
-$customers = $customerDb->listCustomers();
+$customers = $customerDb->listCustomers(null);
 echo '<div class="col-sm-9">';
 echo '<table class="table table-striped">';
 echo '<thead><tr>';

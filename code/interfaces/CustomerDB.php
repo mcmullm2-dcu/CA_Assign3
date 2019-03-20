@@ -6,8 +6,7 @@
 interface CustomerDB
 {
     public function getCustomer($code);
-    public function listCustomers();
-    public function listAccountManagerCustomers($accountManager);
+    public function listCustomers($accountManager);
     public function insertCustomer($customer);
     public function updateCustomer($customer);
 }

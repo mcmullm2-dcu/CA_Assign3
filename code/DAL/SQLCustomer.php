@@ -27,12 +27,16 @@ class SQLCustomer implements CustomerDB
     }
 
     /**
-     * List all customers in the database.
+     * List all customers in the database belonging to a particular account manager.
+     * If accountManager is null, list all customers.
      */
-    public function listCustomers() {
+    public function listCustomers($accountManager) {
         $conn = Conn::getDbConnection();
         $sql = "SELECT c.code, c.name, c.account_manager, u.name AS userName, u.email ";
         $sql .= "FROM customer c LEFT JOIN user u ON c.account_manager = u.id ";
+        if (isset($accountManager) && $accountManager->id > 0) {
+            $sql .= "WHERE u.Id = ".$accountManager->id." ";
+        }
         $sql .= "ORDER BY c.name;";
         $result = mysqli_query($conn, $sql);
 
@@ -44,10 +48,6 @@ class SQLCustomer implements CustomerDB
         }
 
         return $customers;
-    }
-
-    public function listAccountManagerCustomers($accountManager) {
-
     }
 
     /**

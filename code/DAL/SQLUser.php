@@ -6,6 +6,31 @@
 class SQLUser implements UserDB
 {
     /**
+     * Gets a list of users belonging to a given role name. If no role name is
+     * given, then it returns all users.
+     */
+    public function getUsers($role_name)
+    {
+        $conn = Conn::getDbConnection();
+        $sql = "SELECT u.id, u.email, u.name ";
+        $sql .= "FROM user u ";
+        if (isset($role_name)) {
+            $sql .= "INNER JOIN role r on u.id = r.user_id ";
+            $sql .= "WHERE r.name = '$role_name' ";
+        }
+        $sql .= "ORDER BY u.name;";
+        $result = mysqli_query($conn, $sql);
+
+        $users = array();
+        while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+            $user = new User($role['id'], $role['name'], $role['email']);
+            array_push($users, $user);
+        }
+
+        return $users;
+    }
+
+    /**
      * Given the user's credentials, attempt to log a user into the system.
      *
      * @param string $email The user's email address.

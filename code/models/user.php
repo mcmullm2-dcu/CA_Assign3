@@ -74,4 +74,20 @@ class User
 
         return null;
     }
+
+    /**
+     * Determines if this user is an administrator.
+     */
+    public function isAdmin()
+    {
+        if (isset($this->roles)) {
+            foreach ($roles as $role) {
+                if ($role->name == "Admin") {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
 }

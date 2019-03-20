@@ -6,8 +6,8 @@
 class SQLUser implements UserDB
 {
     /**
-     * Gets a list of users belonging to a given role name. If no role name is
-     * given, then it returns all users.
+     * Gets a list of users belonging to a given role name. If role name is set
+     * to null, then it returns all users.
      */
     public function getUsers($role_name)
     {
@@ -23,7 +23,7 @@ class SQLUser implements UserDB
 
         $users = array();
         while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-            $user = new User($role['id'], $role['name'], $role['email']);
+            $user = new User($row['id'], $row['name'], $row['email']);
             array_push($users, $user);
         }
 

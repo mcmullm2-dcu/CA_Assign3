@@ -14,7 +14,7 @@ class Customer
      */
     public function __construct($code, $name, $accountManager)
     {
-        $this->code = $code;
+        $this->code = strtoupper($code);
         $this->name = $name;
         $this->accountManager = $accountManager;
     }

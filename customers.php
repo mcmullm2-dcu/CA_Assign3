@@ -22,11 +22,17 @@ $customerDb = $db->GetCustomerDB();
 $userDb = $db->GetUserDB();
 $users = $userDb->getUsers(null);
 
+$mode = 'add';
+if (isset($_GET['mode'])) {
+    $edit_id = htmlspecialchars($_GET['id']);
+    $mode = htmlspecialchars($_GET['mode']);
+}
+
 // Handle postback
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $post_code = $_POST['customer_code'];
-    $post_name = $_POST['customer_name'];
-    $post_user = $_POST['customer_account_manager'];
+    $post_code = filter_var($_POST['customer_code'], FILTER_SANITIZE_STRING);
+    $post_name = filter_var($_POST['customer_name'], FILTER_SANITIZE_STRING);
+    $post_user = filter_var($_POST['customer_account_manager'], FILTER_SANITIZE_STRING);
     $test_customer = $customerDb->getCustomer($post_code);
     if (isset($test_customer)) {
         $error = "Sorry, that customer code already exists. Please try another.";
@@ -58,14 +64,19 @@ echo '<thead><tr>';
 echo '<th scope="col">Code</th>';
 echo '<th scope="col">Customer Name</th>';
 echo '<th scope="col">Account Manager</th>';
+echo '<th scope="col">Edit</th>';
 echo '</tr></thead>';
 
 echo '<tbody>';
+// URL without query string, from https://stackoverflow.com/a/6975045/5233918
+$edit_link = strtok($_SERVER["REQUEST_URI"], '?');
+
 foreach ($customers as $customer) {
     echo '<tr>';
     echo '<td>'.$customer->code.'</td>';
     echo '<td>'.$customer->name.'</td>';
     echo '<td>'.$customer->accountManager->name.'</td>';
+    echo '<td><a href="'.$edit_link.'?mode=edit&id='.$customer->code.'">Edit</a></td>';
     echo '</tr>';
 }
 
@@ -77,8 +88,11 @@ echo '</div>';
 ?>
 
 <div class="col-sm-3">
-    <h4>Add Customer</h4>
     <?php
+    echo '<h4>';
+    echo $mode == 'edit' ? 'Edit Customer' : 'Add Customer';
+    echo '</h4>';
+
     if (isset($error)) {
         echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">'.$error;
         echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>';
@@ -91,6 +105,9 @@ echo '</div>';
     }
     ?>
     <form method="post">
+        <?php
+        if ($mode == "add") {
+        ?>
         <div class="form-group">
             <label for="customer_code">Code</label>
             <input type="text" id="customer_code" name="customer_code" <?php
@@ -101,11 +118,19 @@ echo '</div>';
             }
             ?>>
         </div>
+        <?php
+        } else {
+            echo '<input type="hidden" value="'.$edit_id.'" />';
+            $edit_customer = $customerDb->getCustomer($edit_id);
+        }
+        ?>
         <div class="form-group">
             <label for="customer_name">Name</label>
             <input type="text" class="form-control" id="customer_name" name="customer_name" <?php
             if (isset($old_name)) {
                 echo 'value="'.$old_name.'"';
+            } elseif (isset($edit_customer)) {
+                echo 'value="'.$edit_customer->name.'"';
             }
             ?>>
         </div>
@@ -114,21 +139,30 @@ echo '</div>';
             <select class="form-control" id="customer_account_manager" name="customer_account_manager">
                 <option value="0">(none)</option>
                 <?php
-                    if (isset($users)) {
-                        foreach ($users as $user) {
-                            echo '<option value="'.$user->id.'"';
-                            if (isset($old_user) && $user->id == $old_user) {
+                if (isset($users)) {
+                    foreach ($users as $user) {
+                        echo '<option value="'.$user->id.'"';
+                        if (isset($old_user) && $user->id == $old_user) {
+                            echo ' selected';
+                        } elseif ($mode == 'edit' && isset($edit_customer)) {
+                            if (isset($edit_customer->accountManager) && $edit_customer->accountManager->id == $user->id) {
                                 echo ' selected';
                             }
-                            echo '>';
-                            echo $user->name;
-                            echo '</option>';
-                        }
+                        } 
+                        echo '>';
+                        echo $user->name;
+                        echo '</option>';
                     }
+                }
                 ?>
             </select>
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
+        <?php
+        if ($mode == "edit") {
+            echo '<a href="'.$edit_link.'" class="btn btn-secondary">Cancel</a>';
+        }
+        ?>
     </form>
 </div>
 

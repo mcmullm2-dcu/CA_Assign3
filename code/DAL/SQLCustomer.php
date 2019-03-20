@@ -50,8 +50,22 @@ class SQLCustomer implements CustomerDB
 
     }
 
+    /**
+     * Inserts a new customer into the database from a Customer instance.
+     */
     public function insertCustomer($customer) {
+        if (!isset($customer)) {
+            return false;
+        }
+        $is_managed = isset($customer->accountManager) && ($customer->accountManager->id > 0);
+        $sql_A = $is_managed ? ', account_manager' : '';
+        $sql_B = $is_managed ? ', '.$customer->accountManager->id : '';
 
+        $conn = Conn::getDbConnection();
+        $sql = "INSERT INTO customer (code, name".$sql_A.") values ";
+        $sql .= "('$customer->code', '$customer->name'".$sql_B.");";
+        mysqli_query($conn, $sql);
+        return true;
     }
 
     public function updateCustomer($customer) {

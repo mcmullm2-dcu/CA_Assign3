@@ -32,6 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $error = "Sorry, that customer code already exists. Please try another.";
         $old_code = $post_code;
         $old_name = $post_name;
+        $old_user = $post_user;
     } else {
         $manager = null;
         $manager_id = (int)$post_user;
@@ -115,7 +116,11 @@ echo '</div>';
                 <?php
                     if (isset($users)) {
                         foreach ($users as $user) {
-                            echo '<option value="'.$user->id.'">';
+                            echo '<option value="'.$user->id.'"';
+                            if (isset($old_user) && $user->id == $old_user) {
+                                echo ' selected';
+                            }
+                            echo '>';
                             echo $user->name;
                             echo '</option>';
                         }

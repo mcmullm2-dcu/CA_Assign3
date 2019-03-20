@@ -68,7 +68,21 @@ class SQLCustomer implements CustomerDB
         return true;
     }
 
+    /**
+     * Updates an existing customer with the supplied Customer instance.
+     */
     public function updateCustomer($customer) {
+        if (!isset($customer)) {
+            return false;
+        }
+        $is_managed = isset($customer->accountManager) && ($customer->accountManager->id > 0);
 
+        $conn = Conn::getDbConnection();
+        $sql = "UPDATE customer SET name = '".$customer->name."', account_manager = ";
+        $sql .= $is_managed ? $customer->accountManager->id : "null"; 
+        $sql .= " WHERE code = '".$customer->code."';";
+        mysqli_query($conn, $sql);
+        
+        return true;
     }
 }

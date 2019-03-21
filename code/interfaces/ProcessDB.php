@@ -12,8 +12,10 @@ interface ProcessDB
     public function updateProcess($process);
 
     public function addLabel($process, $label);
+    public function addRole($process, $role);
     public function addAvailability($process, $availability);
     
     public function removeLabel($process, $label);
+    public function removeRole($process, $role);
     public function removeAvailability($process, $availability);
 }

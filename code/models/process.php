@@ -13,7 +13,7 @@ class Process
     public $roles;
 
     /**
-     * Constructor that creates a new instance of a Process object. 
+     * Constructor that creates a new instance of a Process object.
      */
     public function __construct($id, $name, $isActive)
     {

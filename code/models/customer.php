@@ -8,6 +8,8 @@ class Customer
     public $code;
     public $name;
     public $accountManager;
+    public $activeJobs;
+    public $activeJobCount;
 
     /**
      * Constructor that creates a new instance of a Customer object.

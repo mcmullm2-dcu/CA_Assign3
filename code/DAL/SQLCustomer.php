@@ -32,7 +32,8 @@ class SQLCustomer implements CustomerDB
      */
     public function listCustomers($accountManager) {
         $conn = Conn::getDbConnection();
-        $sql = "SELECT c.code, c.name, c.account_manager, u.name AS userName, u.email ";
+        $sql = "SELECT c.code, c.name, c.account_manager, u.name AS userName, u.email, ";
+        $sql .= "(SELECT count(*) FROM job j WHERE j.customer_code = c.code AND j.complete = (0)) AS active_jobs ";
         $sql .= "FROM customer c LEFT JOIN user u ON c.account_manager = u.id ";
         if (isset($accountManager) && $accountManager->id > 0) {
             $sql .= "WHERE u.Id = ".$accountManager->id." ";
@@ -44,6 +45,7 @@ class SQLCustomer implements CustomerDB
         while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
             $manager = new User($row['account_manager'], $row['userName'], $row['email']);
             $customer = new Customer($row['code'], $row['name'], $manager);
+            $customer->activeJobCount = $row['active_jobs'];
             array_push($customers, $customer);
         }
 
@@ -84,5 +86,27 @@ class SQLCustomer implements CustomerDB
         mysqli_query($conn, $sql);
         
         return true;
+    }
+
+    /**
+     * Gets a list of a given customer's active jobs
+     */
+    public function getActiveJobs($customer) {
+        if (!isset($customer)) {
+            return;
+        }
+
+        $conn = Conn::getDbConnection();
+        $sql = "SELECT j.job_no, j.title, j.deadline ";
+        $sql .= "FROM job j ";
+        $sql .= "WHERE j.complete = (0) AND j.customer_code = '$customer->code' ";
+        $sql .= "ORDER BY j.deadline ASC;";
+        $result = mysqli_query($conn, $sql);
+
+        $customer->activeJobs = array();
+        while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+            $job = new Job($row['job_no'], $customer, $row['title'], $row['deadline'], false);
+            array_push($customer->activeJobs, $job);
+        }
     }
 }

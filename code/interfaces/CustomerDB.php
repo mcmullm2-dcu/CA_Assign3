@@ -9,4 +9,5 @@ interface CustomerDB
     public function listCustomers($accountManager);
     public function insertCustomer($customer);
     public function updateCustomer($customer);
+    public function getActiveJobs($customer);
 }

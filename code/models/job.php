@@ -22,4 +22,16 @@ class Job
         $this->deadline = $deadline;
         $this->isComplete = $isComplete;
     }
+
+    /**
+     * Indicates whether this job is due today.
+     * Taken from: https://stackoverflow.com/a/25623057/5233918
+     */
+    public function DueToday() {
+        $current = strtotime(date("Y-m-d"));
+        $date    = strtotime($this->deadline);
+        $datediff = $date - $current;
+        $difference = floor($datediff/(60*60*24));
+        return $difference == 0;
+    }
 }

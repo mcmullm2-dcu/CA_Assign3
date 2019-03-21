@@ -15,7 +15,7 @@ class Availability
     /**
      * Constructor that creates a new instance of a Availability object.
      */
-    public function __construct($id, $process, $dayOfWeek, $endTime, $streamCount)
+    public function __construct($id, $process, $dayOfWeek, $startTime, $endTime, $streamCount)
     {
         $this->id = $id;
         $this->process = $process;

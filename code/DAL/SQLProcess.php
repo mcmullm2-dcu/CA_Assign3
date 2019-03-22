@@ -91,8 +91,8 @@ class SQLProcess implements ProcessDB
         }
 
         $conn = Conn::getDbConnection();
-        $sql = "UPDATE process SET name = '".$process->name."', active = ".$process.isActive;
-        $sql .= " WHERE id = '".$process->id."';";
+        $sql = "UPDATE process SET name = '".$process->name."', active = (".$process->isActive;
+        $sql .= ") WHERE id = '".$process->id."';";
         mysqli_query($conn, $sql);
         
         // Clear out related data and reinsert from process instance.

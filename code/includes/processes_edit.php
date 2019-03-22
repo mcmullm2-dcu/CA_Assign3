@@ -30,9 +30,9 @@ if (!isset($process)) {
 <div class="form-check">
   <input class="form-check-input" type="checkbox" id="isActive" name="is_active" <?php
   if (isset($old_active)) {
-      echo $old_active ? 'checked' : '';
+      echo $old_active == 1 ? 'checked' : '';
   } else {
-      echo $process->isActive ? 'checked' : '';
+      echo $process->isActive == 1 ? 'checked' : '';
   }
   ?>>
   <label class="form-check-label" for="isActive">

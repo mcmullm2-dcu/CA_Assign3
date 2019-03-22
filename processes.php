@@ -36,20 +36,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $post_active = 1;
     }
 
-
     if ($mode == 'add') {
         // Attempt to add process
         $newProcess = new Process(null, $post_name, $post_active);
         if ($processDb->addProcess($newProcess)) {
             header("location: ".$edit_link);
         } else {
-            echo 'GOODBYE';
             $error = "Sorry, error trying to add this process.";
             $old_name = $post_name;
             $old_active = $post_active;
         }
     } else if ($mode == 'edit') {
-        // TODO: Attempt to update process
+        $oldProcess = $processDb->getProcess($edit_id);
+        if (!isset($oldProcess)) {
+            // TODO: No process to update
+        } else {
+            $oldProcess->name = $post_name;
+            $oldProcess->isActive = $post_active;
+            if ($processDb->updateProcess($oldProcess)) {
+                var_dump($oldProcess);
+                // header("location: ".$edit_link);
+            } else {
+                $error = "Sorry, error trying to add this process.";
+                $old_name = $post_name;
+                $old_active = $post_active;
+            }
+        }
     }
 }
 

@@ -54,10 +54,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $oldProcess->name = $post_name;
             $oldProcess->isActive = $post_active;
             if ($processDb->updateProcess($oldProcess)) {
-                var_dump($oldProcess);
-                // header("location: ".$edit_link);
+                header("location: ".$edit_link);
             } else {
-                $error = "Sorry, error trying to add this process.";
+                $error = "Sorry, error trying to update this process.";
                 $old_name = $post_name;
                 $old_active = $post_active;
             }

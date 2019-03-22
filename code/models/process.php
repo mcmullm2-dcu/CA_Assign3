@@ -19,6 +19,6 @@ class Process
     {
         $this->id = $id;
         $this->name = $name;
-        $this->isActive = $isActive;
+        $this->isActive = (int)$isActive;
     }
 }

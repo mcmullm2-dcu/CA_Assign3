@@ -286,7 +286,7 @@ class SQLProcess implements ProcessDB
                 $row['end_at'],
                 $row['stream_count']
             );
-            array_push($availability, $label);
+            array_push($availability, $avail);
         }
 
         $process->availability = $availability;

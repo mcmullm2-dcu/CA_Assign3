@@ -5,6 +5,7 @@ class Workflow
     public $id;
     public $name;
     public $description;
+    public $processes;
 
     public function __construct($id, $name, $description)
     {

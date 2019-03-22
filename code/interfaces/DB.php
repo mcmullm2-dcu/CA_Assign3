@@ -4,6 +4,7 @@ include "UserDB.php";
 include "CustomerDB.php";
 include "ProcessDB.php";
 include "WorkflowDB.php";
+include "JobDB.php";
 
 /**
  * Overall database interface to access all other database interfaces.
@@ -14,4 +15,5 @@ interface DB
     public function GetCustomerDB();
     public function GetProcessDB();
     public function GetWorkflowDB();
+    public function GetJobDB();
 }

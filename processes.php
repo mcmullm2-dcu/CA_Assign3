@@ -13,11 +13,6 @@ if (!isset($dashboard)) {
     header("Location: index.php");
 }
 
-echo '<h2>'.$dashboard->name.'</h2>';
-echo '<p>'.$dashboard->description.'</p>';
-
-echo '<div class="row">';
-
 $processDb = $db->GetProcessDB();
 // URL without query string, from https://stackoverflow.com/a/6975045/5233918
 $edit_link = strtok($_SERVER["REQUEST_URI"], '?');
@@ -27,6 +22,15 @@ if (isset($_GET['mode'])) {
     $edit_id = htmlspecialchars($_GET['id']);
     $mode = htmlspecialchars($_GET['mode']);
 }
+
+echo '<h2>'.$dashboard->name;
+if ($mode != 'add') {
+    echo ' <a href="'.$edit_link.'" class="btn btn-primary btn-circle" title="Add a new process"><span class="oi oi-plus"></span></a>';
+}
+echo '</h2>';
+echo '<p>'.$dashboard->description.'</p>';
+
+echo '<div class="row">';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $post_id = filter_var($_POST['process_id'], FILTER_SANITIZE_STRING);
@@ -54,7 +58,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $oldProcess->name = $post_name;
             $oldProcess->isActive = $post_active;
             if ($processDb->updateProcess($oldProcess)) {
-                header("location: ".$edit_link);
+                header("location: ".$edit_link."?mode=details&id=".$edit_id);
             } else {
                 $error = "Sorry, error trying to update this process.";
                 $old_name = $post_name;

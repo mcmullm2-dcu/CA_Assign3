@@ -77,8 +77,6 @@ class SQLProcess implements ProcessDB
             return false;
         }
 
-        $this->addProcessElements($process);
-
         return true;
     }
 
@@ -95,13 +93,6 @@ class SQLProcess implements ProcessDB
         $sql .= ") WHERE id = '".$process->id."';";
         mysqli_query($conn, $sql);
         
-        // Clear out related data and reinsert from process instance.
-        $this->removeAllLabels($process);
-        $this->removeAllRoles($process);
-        $this->removeAllAvailability($process);
-
-        $this->addProcessElements($process);
-
         return true;
     }
 

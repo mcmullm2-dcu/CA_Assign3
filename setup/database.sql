@@ -367,8 +367,6 @@ insert into availability (process_id, day_of_week, start_at, end_at, stream_coun
 insert into availability (process_id, day_of_week, start_at, end_at, stream_count) values (3, 2, '09:00:00', '18:00:00', 2);
 insert into availability (process_id, day_of_week, start_at, end_at, stream_count) values (3, 3, '07:00:00', '16:00:00', 2);
 insert into availability (process_id, day_of_week, start_at, end_at, stream_count) values (3, 3, '09:00:00', '18:00:00', 2);
-insert into availability (process_id, day_of_week, start_at, end_at, stream_count) values (3, 3, '07:00:00', '16:00:00', 2);
-insert into availability (process_id, day_of_week, start_at, end_at, stream_count) values (3, 3, '09:00:00', '18:00:00', 2);
 insert into availability (process_id, day_of_week, start_at, end_at, stream_count) values (3, 5, '07:00:00', '16:00:00', 2);
 insert into availability (process_id, day_of_week, start_at, end_at, stream_count) values (3, 5, '09:00:00', '18:00:00', 2);
 -- LF Printer A

@@ -78,12 +78,12 @@ echo '</div>';
 // Form for adding / editing customers
 ?>
 
-<div class="col-sm-3">
-    <?php
-    include 'code/includes/customers_form.php';
-    ?>
+    <div class="col-sm-3">
+        <?php
+        include 'code/includes/customers_form.php';
+        ?>
+    </div>
 </div>
-
 
 <?php include 'code/footer.php'
 ?>

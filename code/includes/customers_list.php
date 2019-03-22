@@ -5,6 +5,7 @@
  *
  * This file assumes the following variables are already defined:
  * - $edit_link: The URL of the current page, without the query string
+ * - $customerDb: Database class providing customer methods.
  */
 
 $customers = $customerDb->listCustomers(null);

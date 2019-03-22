@@ -17,5 +17,5 @@ echo '<h2>'.$dashboard->name.'</h2>';
 echo '<p>'.$dashboard->description.'</p>';
 ?>
 
-<?php include 'code/footer.php'
-?>
+<?php
+include 'code/footer.php';

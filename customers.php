@@ -71,29 +71,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 
 // Main list of customers
-$customers = $customerDb->listCustomers(null);
 echo '<div class="col-sm-9">';
-echo '<table class="table table-striped">';
-echo '<thead><tr>';
-echo '<th scope="col">Code</th>';
-echo '<th scope="col">Customer Name</th>';
-echo '<th scope="col">Account Manager</th>';
-echo '<th scope="col">Edit</th>';
-echo '</tr></thead>';
-
-echo '<tbody>';
-
-foreach ($customers as $customer) {
-    echo '<tr>';
-    echo '<td>'.$customer->code.'</td>';
-    echo '<td>'.$customer->name.'</td>';
-    echo '<td>'.$customer->accountManager->name.'</td>';
-    echo '<td><a href="'.$edit_link.'?mode=edit&id='.$customer->code.'">Edit</a></td>';
-    echo '</tr>';
-}
-
-echo '</tbody>';
-echo '</table>';
+include 'code/includes/customers_list.php';
 echo '</div>';
 
 // Form for adding / editing customers
@@ -101,81 +80,8 @@ echo '</div>';
 
 <div class="col-sm-3">
     <?php
-    echo '<h4>';
-    echo $mode == 'edit' ? 'Edit Customer' : 'Add Customer';
-    echo '</h4>';
-
-    if (isset($error)) {
-        echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">'.$error;
-        echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>';
-        echo '</div>';
-    }
-    if (isset($success)) {
-        echo '<div class="alert alert-success alert-dismissible fade show" role="alert">'.$success;
-        echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>';
-        echo '</div>';
-    }
+    include 'code/includes/customers_form.php';
     ?>
-    <form method="post">
-        <?php
-        if ($mode == "add") {
-        ?>
-        <div class="form-group">
-            <label for="customer_code">Code</label>
-            <input type="text" id="customer_code" name="customer_code" <?php
-            if (isset($old_code)) {
-                echo 'class="form-control is-invalid" value="'.$old_code.'"';
-            } else {
-                echo 'class="form-control"';
-            }
-            ?>>
-        </div>
-        <?php
-        } else {
-            echo '<input type="hidden" name="customer_code" value="'.$edit_id.'" />';
-            $edit_customer = $customerDb->getCustomer($edit_id);
-        }
-        ?>
-        <div class="form-group">
-            <label for="customer_name">Name</label>
-            <input type="text" class="form-control" id="customer_name" name="customer_name" <?php
-            if (isset($old_name)) {
-                echo 'value="'.$old_name.'"';
-            } elseif (isset($edit_customer)) {
-                echo 'value="'.$edit_customer->name.'"';
-            }
-            ?>>
-        </div>
-        <div class="form-group">
-            <label for="customer_account_manager">Account Manager</label>
-            <select class="form-control" id="customer_account_manager" name="customer_account_manager">
-                <option value="0">(none)</option>
-                <?php
-                if (isset($users)) {
-                    foreach ($users as $user) {
-                        echo '<option value="'.$user->id.'"';
-                        if (isset($old_user) && $user->id == $old_user) {
-                            echo ' selected';
-                        } elseif ($mode == 'edit' && isset($edit_customer)) {
-                            if (isset($edit_customer->accountManager) && $edit_customer->accountManager->id == $user->id) {
-                                echo ' selected';
-                            }
-                        } 
-                        echo '>';
-                        echo $user->name;
-                        echo '</option>';
-                    }
-                }
-                ?>
-            </select>
-        </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
-        <?php
-        if ($mode == "edit") {
-            echo '<a href="'.$edit_link.'" class="btn btn-secondary">Cancel</a>';
-        }
-        ?>
-    </form>
 </div>
 
 

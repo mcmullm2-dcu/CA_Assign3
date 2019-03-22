@@ -19,8 +19,6 @@ echo '<p>'.$dashboard->description.'</p>';
 echo '<div class="row">';
 
 $customerDb = $db->GetCustomerDB();
-//$userDb = $db->GetUserDB();
-//$users = $userDb->getUsers(null);
 
 // URL without query string, from https://stackoverflow.com/a/6975045/5233918
 $edit_link = strtok($_SERVER["REQUEST_URI"], '?');

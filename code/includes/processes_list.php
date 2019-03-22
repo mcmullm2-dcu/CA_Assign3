@@ -11,8 +11,15 @@
 $processes = $processDb->getProcesses(null);
 echo '<table class="table">';
 foreach ($processes as $process) {
-    echo '<tr>';
-    echo '<td>'.$process->name.'</td>';
+    echo '<tr';
+    if (isset($edit_id) && $process->id == $edit_id) {
+        echo ' class="table-active"';
+    }
+    echo '><td';
+    if (!$process->isActive) {
+        echo ' class="text-muted"';
+    }
+    echo '>'.$process->name.'</td>';
     echo '<td><a href="'.$edit_link.'?mode=edit&id='.$process->id.'">Edit</a></td>';
     echo '<td><a href="'.$edit_link.'?mode=details&id='.$process->id.'">Details</a></td>';
     echo '</tr>';

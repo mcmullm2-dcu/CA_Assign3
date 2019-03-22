@@ -182,7 +182,7 @@ insert into dashboard (name, description, url) values ('Tasks', 'View and update
 insert into dashboard (name, description, url) values ('My Accounts', 'View the current status of my customer jobs.', 'customerjobs.php');
 insert into dashboard (name, description, url) values ('Customers', 'Add or edit customer data.', 'customers.php');
 insert into dashboard (name, description, url) values ('Processes', 'Add or edit production processes.', 'processes.php');
-insert into dashboard (name, description, url) values ('Workflows', 'Add or edit production workflows.', 'workflows.php');
+insert into dashboard (name, description, url) values ('Workflows', 'View production workflows.', 'workflows.php');
 insert into dashboard (name, description, url) values ('Jobs', 'Add, edit or cancel jobs.', 'jobs.php');
 insert into dashboard (name, description, url) values ('Schedule', 'Schedule jobs.', 'schedule.php');
 

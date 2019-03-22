@@ -3,8 +3,8 @@
 include 'code/header.php';
    
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $userDb = $db::GetUserDB();
-    $result = $userDb::loginUser($_POST['email'], $_POST['password']);
+    $userDb = $db->GetUserDB();
+    $result = $userDb->loginUser($_POST['email'], $_POST['password']);
     if (isset($result) && empty($result->status)) {
         $userDb::getRoles($result);
         $userDb::getDashboards($result);

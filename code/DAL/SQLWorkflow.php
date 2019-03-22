@@ -58,7 +58,7 @@ class SQLWorkflow implements WorkflowDB
             return false;
         }
         $conn = Conn::getDbConnection();
-        $sql = "SELECT p.id, p.name, p.active ";
+        $sql = "SELECT p.id, p.name, p.active, wp.sequence, wp.estimated_time ";
         $sql .= "FROM process p INNER JOIN workflow_process wp ON p.id = wp.process_id ";
         $sql .= "WHERE wp.workflow_id = ".$workflow->id." ";
         $sql .= "ORDER BY wp.sequence;";
@@ -67,6 +67,8 @@ class SQLWorkflow implements WorkflowDB
         $workflow->processes = array();
         while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
             $process = new Process($row['id'], $row['name'], $row['active']);
+            $process->workflowSequence = $row['sequence'];
+            $process->workflowEstimateTime = $row['estimated_time'];
             array_push($workflow->processes, $process);
         }
 

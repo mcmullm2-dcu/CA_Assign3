@@ -11,6 +11,8 @@ class Process
     public $labels;
     public $availability;
     public $roles;
+    public $workflowSequence;
+    public $workflowEstimateTime;
 
     /**
      * Constructor that creates a new instance of a Process object.

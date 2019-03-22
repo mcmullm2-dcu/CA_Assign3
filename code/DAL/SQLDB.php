@@ -4,6 +4,7 @@ include "conn.php";
 include "SQLUser.php";
 include "SQLCustomer.php";
 include "SQLProcess.php";
+include "SQLWorkflow.php";
 
 /**
  * MySQL implementation of the DB interface.
@@ -13,6 +14,7 @@ class SQLDB implements DB
     private $userDb;
     private $customerDB;
     private $processDB;
+    private $workflowDB;
 
     /**
      * Gets a MySQL implementation of the UserDB interface.
@@ -45,5 +47,16 @@ class SQLDB implements DB
             $processDB = new SQLProcess();
         }
         return $processDB;
+    }
+
+    /**
+     * Gets a MySQL implementation of the WorkflowDB interface.
+     */
+    public function GetWorkflowDB()
+    {
+        if (!isset($workflowDB)) {
+            $workflowDB = new SQLWorkflow();
+        }
+        return $workflowDB;
     }
 }

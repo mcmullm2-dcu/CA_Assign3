@@ -49,9 +49,9 @@ class SQLProcess implements ProcessDB
         }
 
         if (isset($process)) {
-            populateAvailability($process);
-            populateLabels($process);
-            populateRoles($process);
+            $this->populateAvailability($process);
+            $this->populateLabels($process);
+            $this->populateRoles($process);
         }
 
         return $process;
@@ -67,7 +67,7 @@ class SQLProcess implements ProcessDB
 
         $conn = Conn::getDbConnection();
         $sql = "INSERT INTO process (name, active) values ";
-        $sql .= "('$process->name', $process->isActive);";
+        $sql .= "('$process->name', ($process->isActive));";
         mysqli_query($conn, $sql);
 
         // Get the newly added process ID.
@@ -77,7 +77,7 @@ class SQLProcess implements ProcessDB
             return false;
         }
 
-        addProcessElements($process);
+        $this->addProcessElements($process);
 
         return true;
     }
@@ -96,11 +96,11 @@ class SQLProcess implements ProcessDB
         mysqli_query($conn, $sql);
         
         // Clear out related data and reinsert from process instance.
-        removeAllLabels($process);
-        removeAllRoles($process);
-        removeAllAvailability($process);
+        $this->removeAllLabels($process);
+        $this->removeAllRoles($process);
+        $this->removeAllAvailability($process);
 
-        addProcessElements($process);
+        $this->addProcessElements($process);
 
         return true;
     }
@@ -246,7 +246,7 @@ class SQLProcess implements ProcessDB
         }
         $conn = Conn::getDbConnection();
         $sql = "SELECT l.id, l.name ";
-        $sql .= "FROM lable l INNER JOIN process_label pl ON pl.label_id = l.id ";
+        $sql .= "FROM label l INNER JOIN process_label pl ON pl.label_id = l.id ";
         $sql .= "WHERE pl.process_id = ".$process->id." ";
         $sql .= "ORDER BY l.name;";
         $result = mysqli_query($conn, $sql);
@@ -304,7 +304,7 @@ class SQLProcess implements ProcessDB
         $conn = Conn::getDbConnection();
         $sql = "SELECT r.id, r.name ";
         $sql .= "FROM role r INNER JOIN process_role pr ON pr.role_id = r.id ";
-        $sql .= "WHERE rl.process_id = ".$process->id." ";
+        $sql .= "WHERE pr.process_id = ".$process->id." ";
         $sql .= "ORDER BY r.name;";
         $result = mysqli_query($conn, $sql);
 
@@ -368,19 +368,19 @@ class SQLProcess implements ProcessDB
 
         if (isset($process->labels) && count($process->labels) > 0) {
             foreach ($process->labels as $label) {
-                addLabel($process, $label);
+                $this->addLabel($process, $label);
             }
         }
 
         if (isset($process->roles) && count($process->roles) > 0) {
             foreach ($process->roles as $role) {
-                addRole($process, $role);
+                $this->addRole($process, $role);
             }
         }
 
         if (isset($process->availability) && count($process->availability) > 0) {
             foreach ($process->availability as $availability) {
-                addAvailability($process, $availability);
+                $this->addAvailability($process, $availability);
             }
         }        
     }

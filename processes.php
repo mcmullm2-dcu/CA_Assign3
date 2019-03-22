@@ -28,6 +28,32 @@ if (isset($_GET['mode'])) {
     $mode = htmlspecialchars($_GET['mode']);
 }
 
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $post_id = filter_var($_POST['process_id'], FILTER_SANITIZE_STRING);
+    $post_name = filter_var($_POST['process_name'], FILTER_SANITIZE_STRING);
+    $post_active = 0;
+    if (isset($_POST['is_active'])) {
+        $post_active = 1;
+    }
+
+
+    if ($mode == 'add') {
+        // Attempt to add process
+        $newProcess = new Process(null, $post_name, $post_active);
+        if ($processDb->addProcess($newProcess)) {
+            header("location: ".$edit_link);
+        } else {
+            echo 'GOODBYE';
+            $error = "Sorry, error trying to add this process.";
+            $old_name = $post_name;
+            $old_active = $post_active;
+        }
+    } else if ($mode == 'edit') {
+        // TODO: Attempt to update process
+    }
+}
+
+
 echo '<div class="col-sm-6">';
 include 'code/includes/processes_list.php';
 echo '</div>';

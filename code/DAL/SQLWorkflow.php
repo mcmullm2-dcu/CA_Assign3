@@ -25,6 +25,32 @@ class SQLWorkflow implements WorkflowDB
     }
 
     /**
+     * Get an individual workflow
+     */
+    public function getWorkflow($workflow_id) {
+        if (!isset($workflow_id)) {
+            return null;
+        }
+        $conn = Conn::getDbConnection();
+        $sql = "SELECT w.id, w.name, w.description ";
+        $sql .= "FROM workflow w ";
+        $sql .= "WHERE w.id = ".$workflow_id." ";
+        $sql .= "ORDER BY w.name;";
+        $result = mysqli_query($conn, $sql);
+        $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+        $count = mysqli_num_rows($result);
+
+        $workflow = null;
+        if ($count == 1) {
+            $workflow = new Workflow($row['id'], $row['name'], $row['description']);
+        }
+
+        $this->getProcesses($workflow);
+
+        return $workflow;
+    }
+
+    /**
      * Set all processes for a given workflow.
      */
     public function getProcesses($workflow) {
@@ -34,7 +60,7 @@ class SQLWorkflow implements WorkflowDB
         $conn = Conn::getDbConnection();
         $sql = "SELECT p.id, p.name, p.active ";
         $sql .= "FROM process p INNER JOIN workflow_process wp ON p.id = wp.process_id ";
-        $sql .= "WHERE wp.workflow_id = ".$workflow->id;
+        $sql .= "WHERE wp.workflow_id = ".$workflow->id." ";
         $sql .= "ORDER BY wp.sequence;";
         $result = mysqli_query($conn, $sql);
 

@@ -32,7 +32,11 @@ include 'code/includes/workflows_list.php';
 echo '</div>';
 
 echo '<div class="col-sm-6">';
-echo 'details to follow';
+switch ($mode) {
+    case 'details':
+        include 'code/includes/workflows_details.php';
+        break;
+}
 echo '</div>';
 ?>
 

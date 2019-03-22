@@ -6,5 +6,6 @@
 interface WorkflowDB
 {
     public function getWorkflows();
+    public function getWorkflow($workflow_id);
     public function getProcesses($workflow);
 }

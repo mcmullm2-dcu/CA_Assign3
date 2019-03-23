@@ -58,7 +58,7 @@ if (isset($user)) {
                     $timediff = time() - $deadline;
 
                     echo '<tr class="text-muted small';
-                    if ($job->DueToday()) {
+                    if ($job->dueToday()) {
                         echo ' table-warning';
                     } elseif ($timediff > 0) {
                         echo ' table-danger';
@@ -67,14 +67,14 @@ if (isset($user)) {
                     }
                     echo '"><td>';
                     echo $job->jobNo.'</td><td>'.$job->title.'</td><td>';
-                    if ($job->DueToday()) {
+                    if ($job->dueToday()) {
                         echo 'DUE TODAY';
                     } else {
                         echo $timediff > 0 ? 'OVERDUE: ' : 'Due: ';
                         echo date('d-m-Y', $deadline);
                     } 
                     echo '</td><td>';
-                    echo 'Status: Unknown';
+                    echo 'Status: '.$job->getStatus();
                     echo '</td></tr>';
                 }
             }

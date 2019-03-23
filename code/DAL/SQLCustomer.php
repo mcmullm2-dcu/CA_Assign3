@@ -38,7 +38,7 @@ class SQLCustomer implements CustomerDB
         if (isset($accountManager) && $accountManager->id > 0) {
             $sql .= "WHERE u.Id = ".$accountManager->id." ";
         }
-        $sql .= "ORDER BY c.name;";
+        $sql .= "ORDER BY active_jobs DESC, c.name;";
         $result = mysqli_query($conn, $sql);
 
         $customers = array();

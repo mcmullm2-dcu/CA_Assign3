@@ -10,6 +10,7 @@ class Job
     public $title;
     public $deadline;
     public $isComplete;
+    public $schedule;
 
     /**
      * Constructor that creates a new instance of a Job object.
@@ -27,11 +28,37 @@ class Job
      * Indicates whether this job is due today.
      * Taken from: https://stackoverflow.com/a/25623057/5233918
      */
-    public function DueToday() {
+    public function dueToday()
+    {
         $current = strtotime(date("Y-m-d"));
         $date    = strtotime($this->deadline);
         $datediff = $date - $current;
         $difference = floor($datediff/(60*60*24));
         return $difference == 0;
+    }
+
+    /**
+     * Gets the current status of this job.
+     */
+    public function getStatus()
+    {
+        if ($this->isComplete) {
+            return 'Finished';
+        }
+
+        if (!isset($this->schedule) || count($this->schedule) == 0) {
+            return 'Not Scheduled';
+        }
+
+        foreach ($this->schedule as $step) {
+            if (!$step->complete) {
+                $status = $step->process->name;
+                if (!isset($step->actualStart)) {
+                    $status .= " (waiting)";
+                } else {
+                    $status .= " (processing)";
+                }
+            }
+        }
     }
 }

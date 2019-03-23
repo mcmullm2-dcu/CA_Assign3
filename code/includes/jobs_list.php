@@ -29,7 +29,7 @@ foreach ($jobs as $job) {
     echo '<tr';
     if (isset($edit_code) && $job->jobNo == $edit_code) {
         echo ' class="table-active"';
-    } elseif ($job->DueToday()) {
+    } elseif ($job->dueToday()) {
         echo ' class="table-warning"';
     } elseif ($timediff > 0) {
         echo ' class="table-danger"';
@@ -39,7 +39,7 @@ foreach ($jobs as $job) {
     echo '<td>'.$job->customer->name.'</td>';
 
     echo '<td>'.date('d-m-Y', $deadline).'</td>';
-    echo '<td>-</td>';
+    echo '<td>'.$job->getStatus().'</td>';
 
     echo '<td><a href="'.$edit_link.'?mode=cancel&code='.$job->jobNo.'">Cancel</a></td>';
     echo '</tr>';

@@ -39,7 +39,8 @@ if (isset($job)) {
         if (isset($_POST['schedule_step']) && $_POST['schedule_step'] == "WorkflowPicked") {
             $workflow = $workflowDb->getWorkflow($_POST['select_workflow']);
             include 'code/includes/schedule_addtimes.php';
-        } else {
+        } else if (isset($_POST['workflow_id'])) {
+            $workflow = $workflowDb->getWorkflow($_POST['workflow_id']);
             include 'code/includes/schedule_jobscheduled.php';
         }
     } else {

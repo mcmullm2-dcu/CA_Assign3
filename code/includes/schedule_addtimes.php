@@ -12,6 +12,7 @@
 echo '<h4>Step 2: Update Times</h4>';
 echo '<form method="POST">';
 echo '<input type="hidden" id="schedule_step" name="schedule_step" value="TimesSet">';
+echo '<input type="hidden" id="workflow_id" name="workflow_id" value="'.$workflow->id.'">';
 echo '<strong>'.$workflow->name.'</strong>';
 echo '<p>'.$workflow->description.'</p>';
 echo '<p>Use the fields below to add the estimated time for each process, ';

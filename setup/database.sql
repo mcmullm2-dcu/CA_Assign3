@@ -69,10 +69,8 @@ create table availability (
   day_of_week tinyint unsigned not null,
   start_at time not null,
   end_at time not null,
-  stream_count int unsigned not null default 1,
   constraint availability_pk primary key (id),
-  constraint fk_availability_process foreign key (process_id) references process (id),
-  check (stream_count >= 1)
+  constraint fk_availability_process foreign key (process_id) references process (id)
 );
 
 create table workflow (
@@ -349,64 +347,64 @@ insert into process_role (process_id, role_id) values (9,10);
 -- Availability
 -- =======================================================================
 -- Design
-insert into availability (process_id, day_of_week, start_at, end_at, stream_count) values (1, 1, '09:00:00', '17:00:00', 2);
-insert into availability (process_id, day_of_week, start_at, end_at, stream_count) values (1, 2, '09:00:00', '17:00:00', 2);
-insert into availability (process_id, day_of_week, start_at, end_at, stream_count) values (1, 3, '09:00:00', '17:00:00', 2);
-insert into availability (process_id, day_of_week, start_at, end_at, stream_count) values (1, 4, '09:00:00', '17:00:00', 2);
-insert into availability (process_id, day_of_week, start_at, end_at, stream_count) values (1, 5, '09:00:00', '17:00:00', 2);
+insert into availability (proce ss_id, day_of_week, start_at, end_at) values (1, 1, '09:00:00', '17:00:00');
+insert into availability (process_id, day_of_week, start_at, end_at) values (1, 2, '09:00:00', '17:00:00');
+insert into availability (process_id, day_of_week, start_at, end_at) values (1, 3, '09:00:00', '17:00:00');
+insert into availability (process_id, day_of_week, start_at, end_at) values (1, 4, '09:00:00', '17:00:00');
+insert into availability (process_id, day_of_week, start_at, end_at) values (1, 5, '09:00:00', '17:00:00');
 -- Structural
-insert into availability (process_id, day_of_week, start_at, end_at, stream_count) values (2, 1, '09:00:00', '18:00:00', 5);
-insert into availability (process_id, day_of_week, start_at, end_at, stream_count) values (2, 2, '09:00:00', '18:00:00', 5);
-insert into availability (process_id, day_of_week, start_at, end_at, stream_count) values (2, 3, '09:00:00', '18:00:00', 5);
-insert into availability (process_id, day_of_week, start_at, end_at, stream_count) values (2, 4, '09:00:00', '18:00:00', 5);
-insert into availability (process_id, day_of_week, start_at, end_at, stream_count) values (2, 5, '09:00:00', '18:00:00', 5);
+insert into availability (process_id, day_of_week, start_at, end_at) values (2, 1, '09:00:00', '18:00:00');
+insert into availability (process_id, day_of_week, start_at, end_at) values (2, 2, '09:00:00', '18:00:00');
+insert into availability (process_id, day_of_week, start_at, end_at) values (2, 3, '09:00:00', '18:00:00');
+insert into availability (process_id, day_of_week, start_at, end_at) values (2, 4, '09:00:00', '18:00:00');
+insert into availability (process_id, day_of_week, start_at, end_at) values (2, 5, '09:00:00', '18:00:00');
 -- Prepress
-insert into availability (process_id, day_of_week, start_at, end_at, stream_count) values (3, 1, '07:00:00', '16:00:00', 2);
-insert into availability (process_id, day_of_week, start_at, end_at, stream_count) values (3, 1, '09:00:00', '18:00:00', 2);
-insert into availability (process_id, day_of_week, start_at, end_at, stream_count) values (3, 2, '07:00:00', '16:00:00', 2);
-insert into availability (process_id, day_of_week, start_at, end_at, stream_count) values (3, 2, '09:00:00', '18:00:00', 2);
-insert into availability (process_id, day_of_week, start_at, end_at, stream_count) values (3, 3, '07:00:00', '16:00:00', 2);
-insert into availability (process_id, day_of_week, start_at, end_at, stream_count) values (3, 3, '09:00:00', '18:00:00', 2);
-insert into availability (process_id, day_of_week, start_at, end_at, stream_count) values (3, 4, '07:00:00', '16:00:00', 2);
-insert into availability (process_id, day_of_week, start_at, end_at, stream_count) values (3, 4, '09:00:00', '18:00:00', 2);
-insert into availability (process_id, day_of_week, start_at, end_at, stream_count) values (3, 5, '07:00:00', '16:00:00', 2);
-insert into availability (process_id, day_of_week, start_at, end_at, stream_count) values (3, 5, '09:00:00', '18:00:00', 2);
+insert into availability (process_id, day_of_week, start_at, end_at) values (3, 1, '07:00:00', '16:00:00');
+insert into availability (process_id, day_of_week, start_at, end_at) values (3, 1, '09:00:00', '18:00:00');
+insert into availability (process_id, day_of_week, start_at, end_at) values (3, 2, '07:00:00', '16:00:00');
+insert into availability (process_id, day_of_week, start_at, end_at) values (3, 2, '09:00:00', '18:00:00');
+insert into availability (process_id, day_of_week, start_at, end_at) values (3, 3, '07:00:00', '16:00:00');
+insert into availability (process_id, day_of_week, start_at, end_at) values (3, 3, '09:00:00', '18:00:00');
+insert into availability (process_id, day_of_week, start_at, end_at) values (3, 4, '07:00:00', '16:00:00');
+insert into availability (process_id, day_of_week, start_at, end_at) values (3, 4, '09:00:00', '18:00:00');
+insert into availability (process_id, day_of_week, start_at, end_at) values (3, 5, '07:00:00', '16:00:00');
+insert into availability (process_id, day_of_week, start_at, end_at) values (3, 5, '09:00:00', '18:00:00');
 -- LF Printer A
-insert into availability (process_id, day_of_week, start_at, end_at, stream_count) values (4, 1, '09:00:00', '18:00:00', 1);
-insert into availability (process_id, day_of_week, start_at, end_at, stream_count) values (4, 2, '09:00:00', '18:00:00', 1);
-insert into availability (process_id, day_of_week, start_at, end_at, stream_count) values (4, 3, '09:00:00', '18:00:00', 1);
-insert into availability (process_id, day_of_week, start_at, end_at, stream_count) values (4, 4, '09:00:00', '18:00:00', 1);
-insert into availability (process_id, day_of_week, start_at, end_at, stream_count) values (4, 5, '09:00:00', '18:00:00', 1);
+insert into availability (process_id, day_of_week, start_at, end_at) values (4, 1, '09:00:00', '18:00:00');
+insert into availability (process_id, day_of_week, start_at, end_at) values (4, 2, '09:00:00', '18:00:00');
+insert into availability (process_id, day_of_week, start_at, end_at) values (4, 3, '09:00:00', '18:00:00');
+insert into availability (process_id, day_of_week, start_at, end_at) values (4, 4, '09:00:00', '18:00:00');
+insert into availability (process_id, day_of_week, start_at, end_at) values (4, 5, '09:00:00', '18:00:00');
 -- LF Printer B
-insert into availability (process_id, day_of_week, start_at, end_at, stream_count) values (5, 1, '08:00:00', '17:00:00', 1);
-insert into availability (process_id, day_of_week, start_at, end_at, stream_count) values (5, 2, '08:00:00', '17:00:00', 1);
-insert into availability (process_id, day_of_week, start_at, end_at, stream_count) values (5, 3, '08:00:00', '17:00:00', 1);
-insert into availability (process_id, day_of_week, start_at, end_at, stream_count) values (5, 4, '08:00:00', '17:00:00', 1);
-insert into availability (process_id, day_of_week, start_at, end_at, stream_count) values (5, 5, '08:00:00', '17:00:00', 1);
+insert into availability (process_id, day_of_week, start_at, end_at) values (5, 1, '08:00:00', '17:00:00');
+insert into availability (process_id, day_of_week, start_at, end_at) values (5, 2, '08:00:00', '17:00:00');
+insert into availability (process_id, day_of_week, start_at, end_at) values (5, 3, '08:00:00', '17:00:00');
+insert into availability (process_id, day_of_week, start_at, end_at) values (5, 4, '08:00:00', '17:00:00');
+insert into availability (process_id, day_of_week, start_at, end_at) values (5, 5, '08:00:00', '17:00:00');
 -- SF Printer
-insert into availability (process_id, day_of_week, start_at, end_at, stream_count) values (6, 1, '08:00:00', '17:00:00', 2);
-insert into availability (process_id, day_of_week, start_at, end_at, stream_count) values (6, 2, '08:00:00', '17:00:00', 2);
-insert into availability (process_id, day_of_week, start_at, end_at, stream_count) values (6, 3, '08:00:00', '17:00:00', 2);
-insert into availability (process_id, day_of_week, start_at, end_at, stream_count) values (6, 4, '08:00:00', '17:00:00', 2);
-insert into availability (process_id, day_of_week, start_at, end_at, stream_count) values (6, 5, '08:00:00', '17:00:00', 2);
+insert into availability (process_id, day_of_week, start_at, end_at) values (6, 1, '08:00:00', '17:00:00');
+insert into availability (process_id, day_of_week, start_at, end_at) values (6, 2, '08:00:00', '17:00:00');
+insert into availability (process_id, day_of_week, start_at, end_at) values (6, 3, '08:00:00', '17:00:00');
+insert into availability (process_id, day_of_week, start_at, end_at) values (6, 4, '08:00:00', '17:00:00');
+insert into availability (process_id, day_of_week, start_at, end_at) values (6, 5, '08:00:00', '17:00:00');
 -- Finishing
-insert into availability (process_id, day_of_week, start_at, end_at, stream_count) values (7, 1, '08:00:00', '17:00:00', 2);
-insert into availability (process_id, day_of_week, start_at, end_at, stream_count) values (7, 2, '08:00:00', '17:00:00', 2);
-insert into availability (process_id, day_of_week, start_at, end_at, stream_count) values (7, 3, '08:00:00', '17:00:00', 2);
-insert into availability (process_id, day_of_week, start_at, end_at, stream_count) values (7, 4, '08:00:00', '17:00:00', 2);
-insert into availability (process_id, day_of_week, start_at, end_at, stream_count) values (7, 5, '07:00:00', '16:00:00', 2);
+insert into availability (process_id, day_of_week, start_at, end_at) values (7, 1, '08:00:00', '17:00:00');
+insert into availability (process_id, day_of_week, start_at, end_at) values (7, 2, '08:00:00', '17:00:00');
+insert into availability (process_id, day_of_week, start_at, end_at) values (7, 3, '08:00:00', '17:00:00');
+insert into availability (process_id, day_of_week, start_at, end_at) values (7, 4, '08:00:00', '17:00:00');
+insert into availability (process_id, day_of_week, start_at, end_at) values (7, 5, '07:00:00', '16:00:00');
 -- Kitting
-insert into availability (process_id, day_of_week, start_at, end_at, stream_count) values (8, 1, '08:00:00', '17:00:00', 2);
-insert into availability (process_id, day_of_week, start_at, end_at, stream_count) values (8, 2, '08:00:00', '17:00:00', 2);
-insert into availability (process_id, day_of_week, start_at, end_at, stream_count) values (8, 3, '08:00:00', '17:00:00', 2);
-insert into availability (process_id, day_of_week, start_at, end_at, stream_count) values (8, 4, '08:00:00', '17:00:00', 2);
-insert into availability (process_id, day_of_week, start_at, end_at, stream_count) values (8, 5, '07:00:00', '16:00:00', 2);
+insert into availability (process_id, day_of_week, start_at, end_at) values (8, 1, '08:00:00', '17:00:00');
+insert into availability (process_id, day_of_week, start_at, end_at) values (8, 2, '08:00:00', '17:00:00');
+insert into availability (process_id, day_of_week, start_at, end_at) values (8, 3, '08:00:00', '17:00:00');
+insert into availability (process_id, day_of_week, start_at, end_at) values (8, 4, '08:00:00', '17:00:00');
+insert into availability (process_id, day_of_week, start_at, end_at) values (8, 5, '07:00:00', '16:00:00');
 -- Despatch
-insert into availability (process_id, day_of_week, start_at, end_at, stream_count) values (9, 1, '09:00:00', '18:00:00', 1);
-insert into availability (process_id, day_of_week, start_at, end_at, stream_count) values (9, 2, '09:00:00', '18:00:00', 1);
-insert into availability (process_id, day_of_week, start_at, end_at, stream_count) values (9, 3, '09:00:00', '18:00:00', 1);
-insert into availability (process_id, day_of_week, start_at, end_at, stream_count) values (9, 4, '09:00:00', '18:00:00', 1);
-insert into availability (process_id, day_of_week, start_at, end_at, stream_count) values (9, 5, '09:00:00', '18:00:00', 1);
+insert into availability (process_id, day_of_week, start_at, end_at) values (9, 1, '09:00:00', '18:00:00');
+insert into availability (process_id, day_of_week, start_at, end_at) values (9, 2, '09:00:00', '18:00:00');
+insert into availability (process_id, day_of_week, start_at, end_at) values (9, 3, '09:00:00', '18:00:00');
+insert into availability (process_id, day_of_week, start_at, end_at) values (9, 4, '09:00:00', '18:00:00');
+insert into availability (process_id, day_of_week, start_at, end_at) values (9, 5, '09:00:00', '18:00:00');
 
 -- =======================================================================
 -- Workflows

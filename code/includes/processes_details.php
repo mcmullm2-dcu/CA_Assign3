@@ -31,12 +31,6 @@ if (!isset($process)) {
                 echo '<br>';
             }
             echo $avail->getTimeRange();
-            echo ' <small class="text-muted">';
-            echo $avail->streamCount.' stream';
-            if ($avail->streamCount > 1) {
-                echo 's';
-            }
-            echo ' available</small>';
         }
 
         echo '</dd></dl></div><hr />';

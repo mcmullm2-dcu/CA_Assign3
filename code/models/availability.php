@@ -10,26 +10,25 @@ class Availability
     public $dayOfWeek;
     public $startTime;
     public $endTime;
-    public $streamCount;
 
     /**
      * Constructor that creates a new instance of a Availability object.
      */
-    public function __construct($id, $process, $dayOfWeek, $startTime, $endTime, $streamCount)
+    public function __construct($id, $process, $dayOfWeek, $startTime, $endTime)
     {
         $this->id = $id;
         $this->process = $process;
         $this->dayOfWeek = $dayOfWeek;
         $this->startTime = $startTime;
         $this->endTime = $endTime;
-        $this->streamCount = $streamCount;
     }
 
     /**
      * Gets a string representation of the day of the week, where 0 = Sunday, 1 = Monday, etc.
      * It uses the Modulo operator, so any value outside 0-6 will cycle around again.
      */
-    public function getDayName() {
+    public function getDayName()
+    {
         $day = $this->dayOfWeek % 7;
         switch ($this->dayOfWeek) {
             case 0:
@@ -52,7 +51,8 @@ class Availability
     /**
      * Gets a string representation of the available times for this instance.
      */
-    public function getTimeRange() {
+    public function getTimeRange()
+    {
         $output = date("H:i", strtotime($this->startTime));
         $output .= ' - ';
         $output .= date("H:i", strtotime($this->endTime));

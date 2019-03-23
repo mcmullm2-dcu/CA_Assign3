@@ -177,10 +177,9 @@ class SQLProcess implements ProcessDB
             // Availability does not exist yet, so try adding it.
             $conn = Conn::getDbConnection();
             $sql = "INSERT INTO availability (process_id, day_of_week, ";
-            $sql .= "start_at, end_at, stream_count) values (";
+            $sql .= "start_at, end_at) values (";
             $sql .= $process->id.", ".$availability->dayOfWeek.", ";
-            $sql .= $availability->startTime.", ".$availability->endTime.", ";
-            $sql .= $availability->streamCount.");";
+            $sql .= $availability->startTime.", ".$availability->endTime.");";
             mysqli_query($conn, $sql_insert);
             $availability->id = mysqli_insert_id($conn);
         }
@@ -261,7 +260,7 @@ class SQLProcess implements ProcessDB
             return;
         }
         $conn = Conn::getDbConnection();
-        $sql = "SELECT id, day_of_week, start_at, end_at, stream_count ";
+        $sql = "SELECT id, day_of_week, start_at, end_at ";
         $sql .= "FROM availability ";
         $sql .= "WHERE process_id = ".$process->id." ";
         $sql .= "ORDER BY day_of_week, start_at;";
@@ -274,8 +273,7 @@ class SQLProcess implements ProcessDB
                 $process,
                 $row['day_of_week'],
                 $row['start_at'],
-                $row['end_at'],
-                $row['stream_count']
+                $row['end_at']
             );
             array_push($availability, $avail);
         }
@@ -373,6 +371,6 @@ class SQLProcess implements ProcessDB
             foreach ($process->availability as $availability) {
                 $this->addAvailability($process, $availability);
             }
-        }        
+        }
     }
 }

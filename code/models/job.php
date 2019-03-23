@@ -31,7 +31,7 @@ class Job
     public function dueToday()
     {
         $current = strtotime(date("Y-m-d"));
-        $date    = strtotime($this->deadline);
+        $date = strtotime($this->deadline);
         $datediff = $date - $current;
         $difference = floor($datediff/(60*60*24));
         return $difference == 0;

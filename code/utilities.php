@@ -17,3 +17,16 @@ function writeNavLink($url, $text)
     }
     echo "\">{$text}</a></li>";
 }
+
+/**
+ * Get a number representing the day of week (0 - Sunday, 1 - Monday, etc) for a
+ * given date. If no date is supplied, gets the current day instead.
+ */
+function getDayNumber($date)
+{
+    if (!isset($date)) {
+        return date("N") % 7;
+    } else {
+        return date("N", strtotime($date)) % 7;
+    }
+}

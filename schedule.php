@@ -19,6 +19,7 @@ echo '<p>'.$dashboard->description.'</p>';
 $jobDb = $db->GetJobDB();
 $scheduleDb = $db->GetScheduleDB();
 $workflowDb = $db->GetWorkflowDB();
+$processDb = $db->GetProcessDB();
 
 // URL without query string, from https://stackoverflow.com/a/6975045/5233918
 $edit_link = strtok($_SERVER["REQUEST_URI"], '?');

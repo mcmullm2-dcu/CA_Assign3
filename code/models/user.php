@@ -81,8 +81,24 @@ class User
     public function isAdmin()
     {
         if (isset($this->roles)) {
-            foreach ($roles as $role) {
+            foreach ($this->roles as $role) {
                 if ($role->name == "Admin") {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Determines if this user is allowed to schedule jobs
+     */
+    public function canSchedule()
+    {
+        if (isset($this->dashboards)) {
+            foreach ($this->dashboards as $dashboard) {
+                if ($dashboard->url == 'schedule.php') {
                     return true;
                 }
             }

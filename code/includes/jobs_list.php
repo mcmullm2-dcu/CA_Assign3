@@ -43,7 +43,12 @@ foreach ($jobs as $job) {
     echo '<td>'.date('d-m-Y', $deadline).'</td>';
     echo '<td>'.$job->getStatus().'</td>';
 
-    echo '<td><a href="'.$edit_link.'?mode=cancel&code='.$job->jobNo.'">Cancel</a></td>';
+    echo '<td>';
+    if ($user->canSchedule() && !$job->isScheduled()) {
+        echo '<a href="schedule.php?job='.$job->jobNo.'" title="Schedule Job">';
+        echo '<span class="oi oi-clock"></span></a>';
+    }
+    echo '</td>';
     echo '</tr>';
 }
 echo '</tbody></table>';

@@ -347,7 +347,7 @@ insert into process_role (process_id, role_id) values (9,10);
 -- Availability
 -- =======================================================================
 -- Design
-insert into availability (proce ss_id, day_of_week, start_at, end_at) values (1, 1, '09:00:00', '17:00:00');
+insert into availability (process_id, day_of_week, start_at, end_at) values (1, 1, '09:00:00', '17:00:00');
 insert into availability (process_id, day_of_week, start_at, end_at) values (1, 2, '09:00:00', '17:00:00');
 insert into availability (process_id, day_of_week, start_at, end_at) values (1, 3, '09:00:00', '17:00:00');
 insert into availability (process_id, day_of_week, start_at, end_at) values (1, 4, '09:00:00', '17:00:00');
@@ -359,15 +359,10 @@ insert into availability (process_id, day_of_week, start_at, end_at) values (2, 
 insert into availability (process_id, day_of_week, start_at, end_at) values (2, 4, '09:00:00', '18:00:00');
 insert into availability (process_id, day_of_week, start_at, end_at) values (2, 5, '09:00:00', '18:00:00');
 -- Prepress
-insert into availability (process_id, day_of_week, start_at, end_at) values (3, 1, '07:00:00', '16:00:00');
 insert into availability (process_id, day_of_week, start_at, end_at) values (3, 1, '09:00:00', '18:00:00');
-insert into availability (process_id, day_of_week, start_at, end_at) values (3, 2, '07:00:00', '16:00:00');
 insert into availability (process_id, day_of_week, start_at, end_at) values (3, 2, '09:00:00', '18:00:00');
-insert into availability (process_id, day_of_week, start_at, end_at) values (3, 3, '07:00:00', '16:00:00');
 insert into availability (process_id, day_of_week, start_at, end_at) values (3, 3, '09:00:00', '18:00:00');
-insert into availability (process_id, day_of_week, start_at, end_at) values (3, 4, '07:00:00', '16:00:00');
 insert into availability (process_id, day_of_week, start_at, end_at) values (3, 4, '09:00:00', '18:00:00');
-insert into availability (process_id, day_of_week, start_at, end_at) values (3, 5, '07:00:00', '16:00:00');
 insert into availability (process_id, day_of_week, start_at, end_at) values (3, 5, '09:00:00', '18:00:00');
 -- LF Printer A
 insert into availability (process_id, day_of_week, start_at, end_at) values (4, 1, '09:00:00', '18:00:00');

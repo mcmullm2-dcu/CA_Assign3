@@ -8,6 +8,7 @@
  * - $workflow: A populated Workflow instance.
  * - $workflowDb: Database class providing workflow methods.
  * - $processDb: Database class providing process methods.
+ * - $scheduleDb: Database class providing scheduling methods.
  */
 
 // Get all the processes and times entered by the user
@@ -36,7 +37,9 @@ foreach ($p->availability as $a) {
     echo '<li>'.$a->getDayName().': '.date("H:i", strtotime($a->startTime)).'</li>';
 }
 echo '</ul>';
-// 3. Get all incomplete jobs for process after given time
+// 3. Get all incomplete jobs for process after given time (null = from now)
+$schedules = $scheduleDb->getSchedulesForProcess($p, null);
+echo "Schedule Count: ".count($schedules);
 // 4. Find next available space
 // 5. If available space > process time:
 //    * Set start and end time

@@ -6,4 +6,5 @@
 interface ScheduleDB
 {
     public function getSchedules($job);
+    public function getSchedulesForProcess($process, $start);
 }

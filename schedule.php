@@ -18,6 +18,7 @@ echo '<p>'.$dashboard->description.'</p>';
 
 $jobDb = $db->GetJobDB();
 $scheduleDb = $db->GetScheduleDB();
+$workflowDb = $db->GetWorkflowDB();
 
 // URL without query string, from https://stackoverflow.com/a/6975045/5233918
 $edit_link = strtok($_SERVER["REQUEST_URI"], '?');
@@ -33,7 +34,16 @@ if (isset($job)) {
     include 'code/includes/schedule_jobdetails.php';
     echo '</div>';
     echo '<div class="col-sm-6">';
-    include 'code/includes/schedule_pickworkflow.php';
+    
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        if (isset($_POST['schedule_step']) && $_POST['schedule_step'] == "WorkflowPicked") {
+            include 'code/includes/schedule_addtimes.php';
+        } else {
+            include 'code/includes/schedule_jobscheduled.php';
+        }
+    } else {
+        include 'code/includes/schedule_pickworkflow.php';
+    }
     echo '</div>';
 }
 echo '</div>';

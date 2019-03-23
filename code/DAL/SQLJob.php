@@ -8,12 +8,14 @@ class SQLJob implements JobDB
     /**
      * Get an array of all active jobs.
      */
-    public function getActiveJobs() {
+    public function getActiveJobs()
+    {
         $conn = Conn::getDbConnection();
         $sql = "SELECT j.job_no, c.code, c.name AS CustomerName, u.id, u.email, ";
         $sql .= "u.name AS AccountManager, j.title, j.deadline ";
         $sql .= "FROM job j LEFT JOIN customer c ON j.customer_code = c.code ";
         $sql .= "LEFT JOIN user u ON c.account_manager = u.id ";
+        $sql .= "WHERE j.complete = (0) ";
         $sql .= "ORDER BY j.deadline, j.job_no ASC;";
         $result = mysqli_query($conn, $sql);
 

@@ -19,6 +19,7 @@ echo '<p>'.$dashboard->description.'</p>';
 echo '<div class="row">';
 
 $customerDb = $db->GetCustomerDB();
+$scheduleDb = $db->GetScheduleDB();
 
 // URL without query string, from https://stackoverflow.com/a/6975045/5233918
 $edit_link = strtok($_SERVER["REQUEST_URI"], '?');
@@ -53,7 +54,8 @@ if (isset($user)) {
                 echo '<em>No jobs in progress</em>';
                 echo '</td></tr>';
             } else {
-                 foreach($customer->activeJobs as $job) {
+                foreach ($customer->activeJobs as $job) {
+                    $scheduleDb->getSchedules($job);
                     $deadline = strtotime($job->deadline);
                     $timediff = time() - $deadline;
 

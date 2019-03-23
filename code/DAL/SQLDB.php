@@ -6,6 +6,7 @@ include "SQLCustomer.php";
 include "SQLProcess.php";
 include "SQLWorkflow.php";
 include "SQLJob.php";
+include "SQLSchedule.php";
 
 /**
  * MySQL implementation of the DB interface.
@@ -17,6 +18,7 @@ class SQLDB implements DB
     private $processDB;
     private $workflowDB;
     private $jobDB;
+    private $scheduleDB;
 
     /**
      * Gets a MySQL implementation of the UserDB interface.
@@ -71,5 +73,16 @@ class SQLDB implements DB
             $jobDB = new SQLJob();
         }
         return $jobDB;
+    }
+
+    /**
+     * Gets a MySQL implementation of the ScheduleDB interface.
+     */
+    public function GetScheduleDB()
+    {
+        if (!isset($scheduleDB)) {
+            $scheduleDB = new SQLSchedule();
+        }
+        return $scheduleDB;
     }
 }

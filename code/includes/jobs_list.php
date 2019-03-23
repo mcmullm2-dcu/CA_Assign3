@@ -7,6 +7,7 @@
  * - $edit_link: The URL of the current page, without the query string
  * - $edit_code: The job number in the query string
  * - $jobDb: Database class providing job methods.
+ * - $scheduleDb: Database class providing job methods.
  */
 
 $jobs = $jobDb->getActiveJobs();
@@ -23,6 +24,7 @@ echo '</thead>';
 // Main table body
 echo '<tbody>';
 foreach ($jobs as $job) {
+    $scheduleDb->getSchedules($job);
     $deadline = strtotime($job->deadline);
     $timediff = time() - $deadline;
 

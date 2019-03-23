@@ -1,7 +1,7 @@
 <?php namespace Assign3;
 
 /**
- * Interface to define functions relating to processes.
+ * Interface to define functions relating to workflows.
  */
 interface WorkflowDB
 {

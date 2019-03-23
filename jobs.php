@@ -14,6 +14,8 @@ if (!isset($dashboard)) {
 }
 
 $jobDb = $db->GetJobDB();
+$scheduleDb = $db->GetScheduleDB();
+
 // URL without query string, from https://stackoverflow.com/a/6975045/5233918
 $edit_link = strtok($_SERVER["REQUEST_URI"], '?');
 

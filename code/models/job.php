@@ -61,4 +61,12 @@ class Job
             }
         }
     }
+
+    /**
+     * Determine if this job is already scheduled.
+     */
+    public function isScheduled()
+    {
+        return (isset($this->schedule) && count($this->schedule) > 0);
+    }
 }

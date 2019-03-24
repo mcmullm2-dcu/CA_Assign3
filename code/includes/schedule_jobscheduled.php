@@ -38,9 +38,15 @@ foreach ($p->availability as $a) {
 }
 echo '</ul>';
 // 3. Get all incomplete jobs for process after given time (null = from now)
+//    Possibly not necessary. Just need to get the next available space.
 $schedules = $scheduleDb->getSchedulesForProcess($p, null);
 echo "Schedule Count: ".count($schedules);
 // 4. Find next available space
+$times = $scheduleDb->getNextSchedule($p, null);
+if (count($times) > 0) {
+    echo '<br>Start Time: '.date("Y-m-d H:i:s", strtotime($times[0]));
+    echo '<br>End Time: '.date("Y-m-d H:i:s", strtotime($times[1]));
+}
 // 5. If available space > process time:
 //    * Set start and end time
 // 6. If available space < process time:

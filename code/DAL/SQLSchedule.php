@@ -79,4 +79,53 @@ class SQLSchedule implements ScheduleDB
 
         return $schedules;
     }
+
+    /**
+     * Gets the next available schedule for a given process
+     */
+    public function getNextSchedule($process, $start)
+    {
+        if (!isset($process)) {
+            return null;
+        }
+        if (!isset($start)) {
+            $start = date("Y-m-d H:i:s");
+        }
+        $sql = "SELECT MIN(js.scheduled_end) AS next_start ";
+        $sql .= "FROM job_schedule js ";
+        $sql .= "INNER JOIN availability a ON js.process_id = a.process_id ";
+        $sql .= "WHERE js.scheduled_end > '".date("Y-m-d H:i:s", strtotime($start))."';";
+        $conn = Conn::getDbConnection();
+        $result = mysqli_query($conn, $sql);
+        $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+        $count = mysqli_num_rows($result);
+
+        $times = array();
+        if ($count == 1) {
+            $newStart = $row['next_start'];
+
+            if (!isset($newStart)) {
+                $nextAvailability = $process->getNextAvailability($start);
+                $currentDay = getDayNumber(null);
+                if ($currentDay == $nextAvailability->dayOfWeek) {
+                    $newStart = $start;
+                } else {
+                    // Find next occurance of availability date
+                    $daysToAdd = $nextAvailability->dayOfWeek - $currentDay;
+                    if ($daysToAdd < 0) {
+                        $daysToAdd = 7 - $daysToAdd;
+                    }
+                    $timeFormatStart = date('H:i:s', strtotime($nextAvailability->startTime));
+                    $newStart = date('Y-m-d '.$timeFormatStart, strtotime($start.' +'.$daysToAdd.' day'));
+                }
+            }
+            $nextAvailability = $process->getNextAvailability($newStart);
+            $timeFormatEnd = date('H:i:s', strtotime($nextAvailability->endTime));
+            $newEnd = date('Y-m-d '.$timeFormatEnd, strtotime($newStart));
+
+            array_push($times, $newStart);
+            array_push($times, $newEnd);
+        }
+        return $times;
+    }
 }

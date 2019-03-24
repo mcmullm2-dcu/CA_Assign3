@@ -14,6 +14,8 @@ if (isset($tasks) && count($tasks) > 0) {
     echo '<th scope="col">Job No</th>';
     echo '<th scope="col">Customer Name</th>';
     echo '<th scope="col">Title</th>';
+    echo '<th scope="col">Scheduled Start</th>';
+    echo '<th scope="col">Start/Stop</th>';
     echo '</tr></thead>';
 
     echo '<tbody>';
@@ -21,8 +23,20 @@ if (isset($tasks) && count($tasks) > 0) {
     foreach ($tasks as $task) {
         echo '<tr>';
         echo '<td>'.$task->jobNo.'</td>';
-        echo '<td>'.'-'.'</td>';
-        echo '<td>'.'-'.'</td>';
+        echo '<td>'.$task->job->customer->name.'</td>';
+        echo '<td>'.$task->job->title.'</td>';
+        echo '<td>'.date('d/m/Y H:i', strtotime($task->start)).'</td>';
+        echo '<td>';
+        if (isset($task->actualStart)) {
+            echo '<a href="'.$edit_link.'?jobno='.$task->jobNo;
+            echo '&s='.$task->sequence;
+            echo '&mode=finish" class="btn btn-danger">Finish</a>';
+        } else {
+            echo '<a href="'.$edit_link.'?jobno='.$task->jobNo;
+            echo '&s='.$task->sequence;
+            echo '&mode=start" class="btn btn-success">Start</a>';
+        }
+        echo '</td>';
         echo '</tr>';
     }
     echo '</tbody></table>';

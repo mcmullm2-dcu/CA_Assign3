@@ -92,8 +92,10 @@ class SQLSchedule implements ScheduleDB
         }
         $conn = Conn::getDbConnection();
         $sql = "SELECT js.job_no, js.sequence, js.scheduled_start, js.scheduled_end, ";
-        $sql .= "js.actual_start, js.actual_end ";
+        $sql .= "js.actual_start, js.actual_end, j.title, j.deadline, c.code, c.name ";
         $sql .= "FROM job_schedule js ";
+        $sql .= "INNER JOIN job j ON j.job_no = js.job_no ";
+        $sql .= "INNER JOIN customer c ON j.customer_code = c.code ";
         $sql .= "WHERE js.is_complete = (0) ";
         $sql .= "AND js.process_id = ".$process->id." ";
         $sql .= "ORDER BY js.scheduled_start;";
@@ -111,6 +113,8 @@ class SQLSchedule implements ScheduleDB
             $schedule->actualStart = $row['actual_start'];
             $schedule->actualEnd = $row['actual_end'];
             $schedule->complete = 0;
+            $customer = new Customer($row['code'], $row['name'], null);
+            $schedule->job = new Job($row['job_no'], $customer, $row['title'], $row['deadline'], 0);
             array_push($schedules, $schedule);
         }
 
@@ -184,6 +188,44 @@ class SQLSchedule implements ScheduleDB
         $sql .= date("Y-m-d H:i:s", strtotime($start))."', '";
         $sql .= date("Y-m-d H:i:s", strtotime($end))."', ";
         $sql .= "(0));";
+        mysqli_query($conn, $sql);
+
+        return true;
+    }
+
+    /**
+     * Start a scheduled job operation
+     */
+    public function startSchedule($job_no, $sequence_no)
+    {
+        if (!isset($job_no)) {
+            return false;
+        }
+
+        $conn = Conn::getDbConnection();
+        $sql = "UPDATE job_schedule SET actual_start = '";
+        $sql .= date("Y-m-d H:i:s");
+        $sql .= "' WHERE job_no = '".$job_no."' ";
+        $sql .= "AND sequence = ".$sequence_no.";";
+        mysqli_query($conn, $sql);
+
+        return true;
+    }
+
+    /**
+     * Finish a scheduled job operation
+     */
+    public function finishSchedule($job_no, $sequence_no) {
+        if (!isset($job_no)) {
+            return false;
+        }
+
+        $conn = Conn::getDbConnection();
+        $sql = "UPDATE job_schedule SET actual_end = '";
+        $sql .= date("Y-m-d H:i:s");
+        $sql .= "', is_complete = (1) ";
+        $sql .= "WHERE job_no = '".$job_no."' ";
+        $sql .= "AND sequence = ".$sequence_no.";";
         mysqli_query($conn, $sql);
 
         return true;

@@ -6,6 +6,7 @@
 class Schedule
 {
     public $jobNo;
+    public $job;
     public $sequence;
     public $process;
     public $start;

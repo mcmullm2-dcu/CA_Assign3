@@ -10,4 +10,6 @@ interface ScheduleDB
     public function getActiveSchedulesForProcess($process);
     public function getNextSchedule($process, $start);
     public function setSchedule($job, $sequence, $process, $start, $end);
+    public function startSchedule($job_no, $sequence_no);
+    public function finishSchedule($job_no, $sequence_no);
 }

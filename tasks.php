@@ -18,6 +18,24 @@ echo '<p>'.$dashboard->description.'</p>';
 
 $processDb = $db->GetProcessDB();
 $scheduleDb = $db->GetScheduleDB();
+// URL without query string, from https://stackoverflow.com/a/6975045/5233918
+$edit_link = strtok($_SERVER["REQUEST_URI"], '?');
+
+$mode = '';
+if (isset($_GET['mode'])) {
+    $edit_jobno = htmlspecialchars($_GET['jobno']);
+    $edit_seq = htmlspecialchars($_GET['s']);
+    $mode = htmlspecialchars($_GET['mode']);
+
+    switch ($mode) {
+        case 'start':
+            $scheduleDb->startSchedule($edit_jobno, $edit_seq);
+            break;
+        case 'finish':
+            $scheduleDb->finishSchedule($edit_jobno, $edit_seq);
+            break;
+    }
+}
 
 $processes = $processDb->getUserProcesses($user);
 $current_process_id = $processes[0]->id;

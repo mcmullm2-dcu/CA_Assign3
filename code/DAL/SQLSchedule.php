@@ -225,12 +225,28 @@ class SQLSchedule implements ScheduleDB
         }
 
         $conn = Conn::getDbConnection();
+
+        // Step 1: Finish off the scheduled task.
         $sql = "UPDATE job_schedule SET actual_end = '";
         $sql .= date("Y-m-d H:i:s");
         $sql .= "', is_complete = (1) ";
         $sql .= "WHERE job_no = '".$job_no."' ";
         $sql .= "AND sequence = ".$sequence_no.";";
         mysqli_query($conn, $sql);
+
+        // Step 2: If there are no more scheduled tasks, then finish off the job
+        $sql = "SELECT count(is_complete) AS unfinished FROM job_schedule WHERE ";
+        $sql .= "job_no = '".$job_no."' AND is_complete = (0);";
+        $result = mysqli_query($conn, $sql);
+        $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+        $count = mysqli_num_rows($result);
+        if ($count == 1) {
+            $count = $row['unfinished'];
+        }
+        if ($count == 0) {
+            $sql = "UPDATE job SET complete = (1) WHERE job_no='".$job_no."';";
+            mysqli_query($conn, $sql);
+        }
 
         return true;
     }

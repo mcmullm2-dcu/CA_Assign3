@@ -58,11 +58,11 @@ function writeTableLine($task) {
             echo '<span class="btn btn-secondary disabled">Unavailable</span>';
         } else if (isset($task->actualStart)) {
             echo '<a href="'.$edit_link.'?jobno='.$task->jobNo;
-            echo '&s='.$task->sequence;
+            echo '&s='.$task->sequence.'&process='.$task->process->id;
             echo '&mode=finish" class="btn btn-danger">Finish</a>';
         } else {
             echo '<a href="'.$edit_link.'?jobno='.$task->jobNo;
-            echo '&s='.$task->sequence;
+            echo '&s='.$task->sequence.'&process='.$task->process->id;
             echo '&mode=start" class="btn btn-success">Start</a>';
         }
         echo '</td>';

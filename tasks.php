@@ -26,6 +26,9 @@ if (isset($_GET['mode'])) {
     $edit_jobno = htmlspecialchars($_GET['jobno']);
     $edit_seq = htmlspecialchars($_GET['s']);
     $mode = htmlspecialchars($_GET['mode']);
+    if (isset($_GET['process'])) {
+        $processQueryString = htmlspecialchars($_GET['process']);
+    }
 
     switch ($mode) {
         case 'start':
@@ -38,8 +41,18 @@ if (isset($_GET['mode'])) {
 }
 
 $processes = $processDb->getUserProcesses($user);
-$current_process_id = $processes[0]->id;
-$current_process = $processes[0];
+if (isset($processQueryString)) {
+    $current_process_id = $processQueryString;
+    foreach ($processes as $process) {
+        if ($process->id == $processQueryString) {
+            $current_process = $process;
+            break;
+        }
+    }
+} else {
+    $current_process_id = $processes[0]->id;
+    $current_process = $processes[0];
+}
 
 function getCurrentProcess($availableProcesses, $current)
 {

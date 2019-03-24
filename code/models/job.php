@@ -51,13 +51,14 @@ class Job
         }
 
         foreach ($this->schedule as $step) {
-            if (!$step->complete) {
+            if ($step->complete == 0) {
                 $status = $step->process->name;
                 if (!isset($step->actualStart)) {
-                    $status .= " (waiting)";
+                    $status .= " (queued)";
                 } else {
                     $status .= " (processing)";
                 }
+                return $status;
             }
         }
     }

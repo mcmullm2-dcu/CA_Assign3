@@ -17,7 +17,7 @@ class SQLSchedule implements ScheduleDB
         $conn = Conn::getDbConnection();
         $sql = "SELECT js.sequence, js.process_id, p.name, p.active, ";
         $sql .= "js.scheduled_start, js.scheduled_end, ";
-        $sql .= "js.actual_start, js.actual_end, js.is_complete ";
+        $sql .= "js.actual_start, js.actual_end, js.is_complete+0 AS complete ";
         $sql .= "FROM job_schedule js ";
         $sql .= "INNER JOIN process p ON js.process_id = p.id ";
         $sql .= "WHERE js.job_no = ".$job->jobNo." ";
@@ -37,6 +37,7 @@ class SQLSchedule implements ScheduleDB
             $schedule->actualStart = $row['actual_start'];
             $schedule->actualEnd = $row['actual_end'];
             $schedule->process = $process;
+            $schedule->complete = $row['complete'];
             array_push($job->schedule, $schedule);
         }
     }

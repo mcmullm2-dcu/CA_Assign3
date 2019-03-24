@@ -7,14 +7,9 @@
  * - $processDb: Database class providing process methods.
  * - $user: The logged in user.
  */
-$processes = $processDb->getUserProcesses($user);
-$current_process_id = $processes[0]->id;
 
 if (count($processes) > 1) {
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $current_process_id = filter_var($_POST['select_process'], FILTER_SANITIZE_STRING);
-    }
-    echo '<form method="POST" class="form-inline">';
+    echo '<form method="POST" class="form-inline mb-4">';
     echo '<label for="select_process" class="mr-1">Select a process: </label>';
     echo '<select id="select_process" name="select_process" class="form-control mr-1">';
     foreach ($processes as $process) {

@@ -14,6 +14,7 @@ class Schedule
     public $actualStart;
     public $actualEnd;
     public $complete;
+    public $lastFinishedSequence;
 
     /**
      * Constructor that creates a new instance of a Job object.
@@ -52,5 +53,18 @@ class Schedule
         $endTimestamp = strtotime($end);
 
         return $endTimestamp - $startTimestamp;
+    }
+
+    /**
+     * Dictates whether or not this schedule is available to start. This is the
+     * case when the previous task in the sequence hasn't been finished yet.
+     */
+    public function isAvailable()
+    {
+        if (!isset($this->lastFinishedSequence)) {
+            return $this->sequence == 0;
+        } else {
+            return $this->sequence == ($this->lastFinishedSequence + 1);
+        }
     }
 }

@@ -20,14 +20,43 @@ if (isset($tasks) && count($tasks) > 0) {
 
     echo '<tbody>';
 
+    // Print out each available task
+    $unavailable = array();
     foreach ($tasks as $task) {
-        echo '<tr>';
+        if ($task->isAvailable()) {
+            writeTableLine($task);
+        } else {
+            array_push($unavailable, $task);
+        }
+    }
+
+    // Now print out tasks that are not yet available (e.g. a previous task
+    // might not be complete yet)
+    foreach ($unavailable as $task) {
+        writeTableLine($task);
+    }
+
+    echo '</tbody></table>';
+} else {
+    echo '<div class="alert alert-success">All caught up... no ';
+    echo $current_process->name.' ';
+    echo 'tasks to do!</div>';
+}
+
+function writeTableLine($task) {
+        echo '<tr';
+        if (!$task->isAvailable()) {
+            echo ' class="text-muted"';
+        }
+        echo '>';
         echo '<td>'.$task->jobNo.'</td>';
         echo '<td>'.$task->job->customer->name.'</td>';
         echo '<td>'.$task->job->title.'</td>';
         echo '<td>'.date('d/m/Y H:i', strtotime($task->start)).'</td>';
         echo '<td>';
-        if (isset($task->actualStart)) {
+        if (!$task->isAvailable()) {
+            echo '<span class="btn btn-secondary disabled">Unavailable</span>';
+        } else if (isset($task->actualStart)) {
             echo '<a href="'.$edit_link.'?jobno='.$task->jobNo;
             echo '&s='.$task->sequence;
             echo '&mode=finish" class="btn btn-danger">Finish</a>';
@@ -38,10 +67,4 @@ if (isset($tasks) && count($tasks) > 0) {
         }
         echo '</td>';
         echo '</tr>';
-    }
-    echo '</tbody></table>';
-} else {
-    echo '<div class="alert alert-success">All caught up... no ';
-    echo $current_process->name.' ';
-    echo 'tasks to do!</div>';
 }

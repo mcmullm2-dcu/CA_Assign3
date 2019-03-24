@@ -92,7 +92,9 @@ class SQLSchedule implements ScheduleDB
         }
         $conn = Conn::getDbConnection();
         $sql = "SELECT js.job_no, js.sequence, js.scheduled_start, js.scheduled_end, ";
-        $sql .= "js.actual_start, js.actual_end, j.title, j.deadline, c.code, c.name ";
+        $sql .= "js.actual_start, js.actual_end, j.title, j.deadline, c.code, c.name, ";
+        $sql .= "(SELECT MAX(a.sequence) FROM job_schedule a ";
+        $sql .= "WHERE a.job_no = js.job_no AND is_complete = (1)) AS LastFinishedSequence ";
         $sql .= "FROM job_schedule js ";
         $sql .= "INNER JOIN job j ON j.job_no = js.job_no ";
         $sql .= "INNER JOIN customer c ON j.customer_code = c.code ";
@@ -113,6 +115,7 @@ class SQLSchedule implements ScheduleDB
             $schedule->actualStart = $row['actual_start'];
             $schedule->actualEnd = $row['actual_end'];
             $schedule->complete = 0;
+            $schedule->lastFinishedSequence = $row['LastFinishedSequence'];
             $customer = new Customer($row['code'], $row['name'], null);
             $schedule->job = new Job($row['job_no'], $customer, $row['title'], $row['deadline'], 0);
             array_push($schedules, $schedule);

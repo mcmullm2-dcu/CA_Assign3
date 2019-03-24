@@ -128,4 +128,34 @@ class SQLSchedule implements ScheduleDB
         }
         return $times;
     }
+
+    /**
+     * Books in a schedule for a given job process.
+     */
+    public function setSchedule($job, $sequence, $process, $start, $end)
+    {
+        if (!isset($job) || !isset($process) || !isset($start) || !isset($end)) {
+            return false;
+        }
+        $conn = Conn::getDbConnection();
+        $sql = "INSERT INTO job_schedule (job_no, sequence, process_id, ";
+        $sql .= "scheduled_start, scheduled_end, is_complete) values ";
+        $sql .= "('$job->jobNo', $sequence, $process->id, ";
+        $sql .= "'".date("Y-m-d H:i:s", strtotime($start))."', ";
+        $sql .= "'".date("Y-m-d H:i:s", strtotime($end))."', ";
+        $sql .= "(0));";
+        mysqli_query($conn, $sql);
+
+        // Get the newly added process ID.
+        $process->id = mysqli_insert_id($conn);
+
+        if ($process->id == 0) {
+            return false;
+        }
+
+        return true;
+
+
+        return true;
+    }
 }

@@ -8,4 +8,5 @@ interface ScheduleDB
     public function getSchedules($job);
     public function getSchedulesForProcess($process, $start);
     public function getNextSchedule($process, $start);
+    public function setSchedule($job, $sequence, $process, $start, $end);
 }

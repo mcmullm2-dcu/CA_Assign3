@@ -33,6 +33,9 @@ echo getDayNumber("2019-03-24");
 // 2. Download all availabilities for process
 echo '<ul>';
 $p = $processDb->getProcess($workflow->processes[0]->id);
+$p->workflowEstimateTime = $workflow->processes[0]->workflowEstimateTime;
+
+echo 'Process: '.$p->name;
 foreach ($p->availability as $a) {
     echo '<li>'.$a->getDayName().': '.date("H:i", strtotime($a->startTime)).'</li>';
 }
@@ -48,8 +51,24 @@ if (count($times) > 0) {
     echo '<br>End Time: '.date("Y-m-d H:i:s", strtotime($times[1]));
 }
 // 5. If available space > process time:
-//    * Set start and end time
-// 6. If available space < process time:
-//    * Fill available time
-//    * Reduce process time
-//    * Repeat from 4
+$availableStart = strtotime($times[0]);
+$availableEnd = strtotime($times[1]);
+$availableSeconds = $availableEnd - $availableStart;
+echo '<br>Available Seconds: '.$availableSeconds;
+echo '<br>Required Seconds: ' . $p->workflowEstimateTime;
+if ($availableSeconds > $p->workflowEstimateTime) {
+    //    * Set start and end time
+    echo '<br>We have enough time!';
+    echo '<br>Start Schedule: '.date("Y-m-d H:i:s", $availableStart);
+    $endTime = $availableStart+$p->workflowEstimateTime;
+    echo '<br>End Schedule: '.date("Y-m-d H:i:s", $endTime);
+    $start = date("Y-m-d H:i:s", $availableStart);
+    $end = date("Y-m-d H:i:s", $endTime);
+    $scheduleDb->setSchedule($job, 0, $p, $start, $end);
+} else {
+    echo '<br>Not enough time, so let us split the process.';
+    // 6. If available space < process time:
+    //    * Fill available time
+    //    * Reduce process time
+    //    * Repeat from 4
+}

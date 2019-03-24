@@ -58,13 +58,14 @@ class SQLSchedule implements ScheduleDB
         $sql .= "FROM job_schedule js ";
         $sql .= "WHERE js.is_complete = (0) ";
         $sql .= "AND js.process_id = ".$process->id." ";
-        $sql .= "AND js.scheduled_end > '".date("Y-m-d H:i:s", strtotime($start))."' ";
+        $sql .= "AND js.scheduled_end > '";
+        $sql .= date("Y-m-d H:i:s", strtotime($start))."' ";
         $sql .= "ORDER BY js.scheduled_start;";
         $result = mysqli_query($conn, $sql);
 
         $schedules = array();
         while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-            $schedule = new Schedules(
+            $schedule = new Schedule(
                 $row['job_no'],
                 $row['sequence'],
                 $process,
@@ -91,12 +92,14 @@ class SQLSchedule implements ScheduleDB
         if (!isset($start)) {
             $start = date("Y-m-d H:i:s");
         }
-        $sql = "SELECT MIN(js.scheduled_end) AS next_start ";
-        $sql .= "FROM job_schedule js ";
-        $sql .= "INNER JOIN availability a ON js.process_id = a.process_id ";
-        $sql .= "WHERE js.scheduled_end > '".date("Y-m-d H:i:s", strtotime($start))."';";
+        $sqlStart = "SELECT MAX(js.scheduled_end) AS next_start ";
+        $sqlStart .= "FROM job_schedule js ";
+        $sqlStart .= "INNER JOIN availability a ON js.process_id = a.process_id ";
+        $sqlStart .= "WHERE js.scheduled_end > '";
+        $sqlStart .= date("Y-m-d H:i:s", strtotime($start))."' ";
+
         $conn = Conn::getDbConnection();
-        $result = mysqli_query($conn, $sql);
+        $result = mysqli_query($conn, $sqlStart);
         $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
         $count = mysqli_num_rows($result);
 
@@ -140,21 +143,12 @@ class SQLSchedule implements ScheduleDB
         $conn = Conn::getDbConnection();
         $sql = "INSERT INTO job_schedule (job_no, sequence, process_id, ";
         $sql .= "scheduled_start, scheduled_end, is_complete) values ";
-        $sql .= "('$job->jobNo', $sequence, $process->id, ";
-        $sql .= "'".date("Y-m-d H:i:s", strtotime($start))."', ";
-        $sql .= "'".date("Y-m-d H:i:s", strtotime($end))."', ";
+        $sql .= "('$job->jobNo', $sequence, $process->id, '";
+        $sql .= date("Y-m-d H:i:s", strtotime($start))."', '";
+        $sql .= date("Y-m-d H:i:s", strtotime($end))."', ";
         $sql .= "(0));";
+        echo '<br>'.$sql;
         mysqli_query($conn, $sql);
-
-        // Get the newly added process ID.
-        $process->id = mysqli_insert_id($conn);
-
-        if ($process->id == 0) {
-            return false;
-        }
-
-        return true;
-
 
         return true;
     }

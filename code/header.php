@@ -35,3 +35,4 @@ $user = User::getUserFromSession();
 </div>
 </nav>
 <div class="container">
+<?php

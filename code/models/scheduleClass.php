@@ -3,7 +3,7 @@
 /**
  * Class to store a job's schedule.
  */
-class Job
+class Schedule
 {
     public $jobNo;
     public $sequence;

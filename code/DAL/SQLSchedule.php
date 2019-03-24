@@ -116,7 +116,7 @@ class SQLSchedule implements ScheduleDB
                     // Find next occurance of availability date
                     $daysToAdd = $nextAvailability->dayOfWeek - $currentDay;
                     if ($daysToAdd < 0) {
-                        $daysToAdd = 7 - $daysToAdd;
+                        $daysToAdd = 7 + $daysToAdd;
                     }
                     $timeFormatStart = date('H:i:s', strtotime($nextAvailability->startTime));
                     $newStart = date('Y-m-d '.$timeFormatStart, strtotime($start.' +'.$daysToAdd.' day'));

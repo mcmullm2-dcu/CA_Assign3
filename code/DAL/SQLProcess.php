@@ -9,7 +9,8 @@ class SQLProcess implements ProcessDB
      * Get all processes available to a given role name. Leave role name as null
      * to retrieve all processes.
      */
-    public function getProcesses($role_name) {
+    public function getProcesses($role_name)
+    {
         $conn = Conn::getDbConnection();
         $sql = "SELECT p.id, p.name, p.active ";
         $sql .= "FROM process p ";
@@ -31,9 +32,41 @@ class SQLProcess implements ProcessDB
     }
 
     /**
+     * Get all processes available to a given user. Leave user as null to
+     * retrieve all processes. Make sure the user object has its roles defined.
+     */
+    public function getUserProcesses($user)
+    {
+        $conn = Conn::getDbConnection();
+        $sql = "SELECT p.id, p.name, p.active ";
+        $sql .= "FROM process p ";
+        if (isset($user) && isset($user->roles)) {
+            $sql .= "INNER JOIN process_role pr ON pr.process_id = p.id ";
+            $sql .= "INNER JOIN role r ON pr.role_id = r.id ";
+            $sql .= "WHERE pr.role_id IN (";
+            foreach ($user->roles as $role) {
+                $sql .= "$role->id, ";
+            }
+            $sql = substr($sql, 0, -2); // Remove trailing comma.
+            $sql .= ") ";
+        }
+        $sql .= "ORDER BY p.name;";
+        $result = mysqli_query($conn, $sql);
+
+        $processes = array();
+        while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+            $process = new Process($row['id'], $row['name'], $row['active']);
+            array_push($processes, $process);
+        }
+
+        return $processes;
+    }
+
+    /**
      * Get a fully populated Process object based on its ID.
      */
-    public function getProcess($process_id) {
+    public function getProcess($process_id)
+    {
         if (!isset($process_id)) {
             return null;
         }
@@ -60,7 +93,8 @@ class SQLProcess implements ProcessDB
     /**
      * Add a process to the database.
      */
-    public function addProcess($process) {
+    public function addProcess($process)
+    {
         if (!isset($process)) {
             return false;
         }
@@ -83,7 +117,8 @@ class SQLProcess implements ProcessDB
     /**
      * Update an existing process.
      */
-    public function updateProcess($process) {
+    public function updateProcess($process)
+    {
         if (!isset($process)) {
             return false;
         }
@@ -99,7 +134,8 @@ class SQLProcess implements ProcessDB
     /**
      * Adds a label to an existing process.
      */
-    public function addLabel($process, $label) {
+    public function addLabel($process, $label)
+    {
         if (!isset($process) || !isset($label)) {
             return;
         }
@@ -134,7 +170,8 @@ class SQLProcess implements ProcessDB
     /**
      * Adds a role to an existing process.
      */
-    public function addRole($process, $role) {
+    public function addRole($process, $role)
+    {
         if (!isset($process) || !isset($role)) {
             return;
         }
@@ -169,7 +206,8 @@ class SQLProcess implements ProcessDB
     /**
      * Adds availability details to an existing process.
      */
-    public function addAvailability($process, $availability) {
+    public function addAvailability($process, $availability)
+    {
         if (!isset($process) || !isset($availability)) {
             return;
         }
@@ -188,7 +226,8 @@ class SQLProcess implements ProcessDB
     /**
      * Removes a label from a process.
      */
-    public function removeLabel($process, $label) {
+    public function removeLabel($process, $label)
+    {
         if (!isset($process) || !isset($label)) {
             return;
         }
@@ -202,7 +241,8 @@ class SQLProcess implements ProcessDB
     /**
      * Removes a role from a process.
      */
-    public function removeRole($process, $role) {
+    public function removeRole($process, $role)
+    {
         if (!isset($process) || !isset($role)) {
             return;
         }
@@ -216,7 +256,8 @@ class SQLProcess implements ProcessDB
     /**
      * Removes availability details from a process.
      */
-    public function removeAvailability($process, $availability) {
+    public function removeAvailability($process, $availability)
+    {
         if (!isset($process) || !isset($availability)) {
             return;
         }
@@ -230,7 +271,8 @@ class SQLProcess implements ProcessDB
     /**
      * Populate the process labels array.
      */
-    private function populateLabels($process) {
+    private function populateLabels($process)
+    {
         if (!isset($process)) {
             return;
         }
@@ -255,7 +297,8 @@ class SQLProcess implements ProcessDB
     /**
      * Populate the process availability array.
      */
-    private function populateAvailability($process) {
+    private function populateAvailability($process)
+    {
         if (!isset($process)) {
             return;
         }
@@ -286,7 +329,8 @@ class SQLProcess implements ProcessDB
     /**
      * Populate the process roles array.
      */
-    private function populateRoles($process) {
+    private function populateRoles($process)
+    {
         if (!isset($process)) {
             return;
         }
@@ -311,7 +355,8 @@ class SQLProcess implements ProcessDB
     /**
      * Removes all labels from the database for a given process.
      */
-    private function removeAllLabels($process) {
+    private function removeAllLabels($process)
+    {
         if (!isset($process)) {
             return;
         }
@@ -324,7 +369,8 @@ class SQLProcess implements ProcessDB
     /**
      * Removes all roles from the database for a given process.
      */
-    private function removeAllRoles($process) {
+    private function removeAllRoles($process)
+    {
         if (!isset($process)) {
             return;
         }
@@ -337,7 +383,8 @@ class SQLProcess implements ProcessDB
     /**
      * Removes all availability details from the database for a given process.
      */
-    private function removeAllAvailability($process) {
+    private function removeAllAvailability($process)
+    {
         if (!isset($process)) {
             return;
         }
@@ -350,7 +397,8 @@ class SQLProcess implements ProcessDB
     /**
      * Adds all label, availability and role data related to a process.
      */
-    private function addProcessElements($process) {
+    private function addProcessElements($process)
+    {
         if (!isset($process)) {
             return;
         }

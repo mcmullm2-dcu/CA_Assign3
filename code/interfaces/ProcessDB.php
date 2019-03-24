@@ -6,6 +6,7 @@
 interface ProcessDB
 {
     public function getProcesses($role_name);
+    public function getUserProcesses($user);
     public function getProcess($process_id);
 
     public function addProcess($process);

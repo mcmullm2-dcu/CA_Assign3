@@ -15,6 +15,11 @@ if (!isset($dashboard)) {
 
 echo '<h2>'.$dashboard->name.'</h2>';
 echo '<p>'.$dashboard->description.'</p>';
+
+$processDb = $db->GetProcessDB();
+
+include 'code/includes/tasks_processdropdown.php';
+
 ?>
 
 <?php include 'code/footer.php'

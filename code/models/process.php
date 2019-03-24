@@ -33,20 +33,20 @@ class Process
         if (!isset($this->availability) || count($this->availability) == 0) {
             return null;
         }
-        if (!isset($start)) {
-            $start = date("Y-m-d H:i:s");
+        $newStart = date("Y-m-d H:i:s", strtotime($start));
+        if (!isset($newStart)) {
+            $newStart = date("Y-m-d H:i:s");
         }
-        $daynum = getDayNumber($start);
-        $starttime = date("H:i:s", strtotime($start));
-        while ($daynum < 7) {
+        while (true) {
+            $daynum = getDayNumber($newStart);
+            $starttime = date("H:i:s", strtotime($newStart));
             foreach ($this->availability as $a) {
-                $aEndTime = date("H:i:s", strtotime($a->startTime));
+                $aEndTime = date("H:i:s", strtotime($a->endTime));
                 if ($a->dayOfWeek == $daynum && $starttime < $aEndTime) {
                     return $a;
                 }
             }
-            $daynum++;
-            $starttime = date("H:i:s", mktime(0, 0, 0));
+            $newStart = date('Y-m-d 00:00:00', strtotime($newStart.' +1 day'));
         }
         return $this->availability[0];
     }

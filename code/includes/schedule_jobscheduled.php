@@ -24,6 +24,7 @@ echo '<h4>Step 3: Scheduling</h4>';
 echo '<ul>';
 $sequence = 0;
 foreach ($workflow->processes as $process) {
+    if ($sequence > 6) break; // *******************************************TMP
     echo '<li>'.$process->name.': '.$process->workflowEstimateTime.'</li>';
     if (!isset($process->availability)) {
         $time = $process->workflowEstimateTime;

@@ -109,7 +109,7 @@ class SQLSchedule implements ScheduleDB
 
             if (!isset($newStart)) {
                 $nextAvailability = $process->getNextAvailability($start);
-                $currentDay = getDayNumber(null);
+                $currentDay = getDayNumber($start);
                 if ($currentDay == $nextAvailability->dayOfWeek) {
                     $newStart = $start;
                 } else {
@@ -121,8 +121,9 @@ class SQLSchedule implements ScheduleDB
                     $timeFormatStart = date('H:i:s', strtotime($nextAvailability->startTime));
                     $newStart = date('Y-m-d '.$timeFormatStart, strtotime($start.' +'.$daysToAdd.' day'));
                 }
+            } else {
+                $nextAvailability = $process->getNextAvailability($newStart);
             }
-            $nextAvailability = $process->getNextAvailability($newStart);
             $timeFormatEnd = date('H:i:s', strtotime($nextAvailability->endTime));
             $newEnd = date('Y-m-d '.$timeFormatEnd, strtotime($newStart));
 
@@ -147,7 +148,6 @@ class SQLSchedule implements ScheduleDB
         $sql .= date("Y-m-d H:i:s", strtotime($start))."', '";
         $sql .= date("Y-m-d H:i:s", strtotime($end))."', ";
         $sql .= "(0));";
-        echo '<br>'.$sql;
         mysqli_query($conn, $sql);
 
         return true;

@@ -54,15 +54,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $success = "Successfully added job!";
         }
     } elseif ($mode == 'edit') {
-        /*
-        $manager = null;
-        if ($post_user > 0) {
-            $manager = new User($post_user, null, null);
-        }
-        $updated_customer = new Customer($post_code, $post_name, $manager);
-        $customerDb->updateCustomer($updated_customer);
+        $customer = $customerDb->getCustomer($post_customer_code);
+        $updated_job = new Job(
+            $post_job_no,
+            $customer,
+            $post_title,
+            $post_deadline,
+            0
+        );
+        $jobDb->updateJob($updated_job);
+        $success = "Successfully updated job!";
         header("location: ".$edit_link);
-        */
     }
 }
 

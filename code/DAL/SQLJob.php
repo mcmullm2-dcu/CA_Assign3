@@ -86,4 +86,24 @@ class SQLJob implements JobDB
 
         return true;       
     }
+
+    /**
+     * Updates an existing job in the database.
+     */
+    public function updateJob($job) {
+        if (!isset($job)) {
+            return false;
+        }
+
+        $conn = Conn::getDbConnection();
+        $customer = $job->customer;
+        $sql = "UPDATE job SET ";
+        $sql .= "customer_code = '$customer->code', ";
+        $sql .= "title = '$job->title', ";
+        $sql .= "deadline = '".date("Y-m-d H:i:s", strtotime($job->deadline))."' ";
+        $sql .= "WHERE job_no = '$job->jobNo'";
+        mysqli_query($conn, $sql);
+
+        return true;       
+    }
 }

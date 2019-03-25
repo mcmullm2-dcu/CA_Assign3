@@ -45,7 +45,7 @@ foreach ($jobs as $job) {
 
     echo '<td>';
     if (isset($editable)) {
-        echo '<a href="jobs.php?mode=edit&jobno='.$job->jobNo.'" title="Edit Job">';
+        echo '<a href="jobs.php?mode=edit&jobno='.$job->jobNo.'" title="Edit Job" class="mr-2">';
         echo '<span class="oi oi-pencil"></span></a> ';
     }
     if ($user->canSchedule() && !$job->isScheduled()) {

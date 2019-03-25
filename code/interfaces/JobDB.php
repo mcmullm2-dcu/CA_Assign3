@@ -8,4 +8,5 @@ interface JobDB
     public function getActiveJobs();
     public function getJob($jobNo);
     public function addJob($job);
+    public function updateJob($job);
 }

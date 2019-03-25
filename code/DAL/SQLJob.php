@@ -70,9 +70,20 @@ class SQLJob implements JobDB
     }
 
     /**
-     * Mark a given job as completed
+     * Adds a job to the database.
      */
-    public function finishJob($job) {
-        // Todo
+    public function addJob($job) {
+        if (!isset($job)) {
+            return false;
+        }
+
+        $conn = Conn::getDbConnection();
+        $customer = $job->customer;
+        $sql = "INSERT INTO job (job_no, customer_code, title, deadline, complete) values ";
+        $sql .= "('$job->jobNo', '$customer->code', '$job->title', '";
+        $sql .= date("Y-m-d H:i:s", strtotime($job->deadline))."', (0));";
+        mysqli_query($conn, $sql);
+
+        return true;       
     }
 }

@@ -43,11 +43,15 @@ if (isset($job)) {
         } else if (isset($_POST['workflow_id'])) {
             $workflow = $workflowDb->getWorkflow($_POST['workflow_id']);
             include 'code/includes/schedule_jobscheduled.php';
+            echo '<div class="row"><a href="'.$edit_link.'" class="btn btn-primary">Back to List</a></div>';
         }
     } else {
         include 'code/includes/schedule_pickworkflow.php';
     }
     echo '</div>';
+} else {
+    $unscheduled = true;
+    include 'code/includes/jobs_list.php';
 }
 echo '</div>';
 ?>

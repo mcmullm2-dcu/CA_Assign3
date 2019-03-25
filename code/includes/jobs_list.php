@@ -10,14 +10,22 @@
  * - $scheduleDb: Database class providing job methods.
  */
 
-$jobs = $jobDb->getActiveJobs();
+$jobs = null;
+
+if (isset($unscheduled)) {
+    $jobs = $jobDb->getUnscheduledJobs();
+} else {
+    $jobs = $jobDb->getActiveJobs();
+}
 echo '<table class="table">';
 echo '<thead class="table-dark">';
 echo '<th>Job No</th>';
 echo '<th>Title</th>';
 echo '<th>Customer</th>';
 echo '<th>Deadline</th>';
-echo '<th>Status</th>';
+if (!isset($unscheduled)) {
+    echo '<th>Status</th>';
+}
 echo '<th></th>';
 echo '</thead>';
 
@@ -41,7 +49,9 @@ foreach ($jobs as $job) {
     echo '<td>'.$job->customer->name.'</td>';
 
     echo '<td>'.date('d-m-Y', $deadline).'</td>';
-    echo '<td>'.$job->getStatus().'</td>';
+    if (!isset($unscheduled)) {
+        echo '<td>'.$job->getStatus().'</td>';
+    }
 
     echo '<td>';
     if (isset($editable)) {

@@ -20,6 +20,9 @@ $reportDb = $db->GetReportDB();
 $processTimes = $reportDb->listScheduledProcessTimes();
 ?>
 
+<h3>Scheduled Processes</h3>
+<p>The graph below shows the relative amount of work that has been scheduled for
+each process. Use this information to schedule new jobs appropriately.</p>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script>
 google.charts.load('current', {'packages':['corechart']});
@@ -38,14 +41,14 @@ function drawChart() {
     ]);
 
     // Optional; add a title and set the width and height of the chart
-    var options = {'title':'Scheduled Processes, in minutes', 'width':550, 'height':400};
+    var options = {'title':'Scheduled Processes, in minutes', 'height': 400};
 
     // Display the chart inside the <div> element with id="piechart"
     var chart = new google.visualization.BarChart(document.getElementById('chart'));
     chart.draw(data, options);
 }
 </script>
-<div id="chart">
+<div id="chart" class="chart">
 </div>
 
 <?php include 'code/footer.php'

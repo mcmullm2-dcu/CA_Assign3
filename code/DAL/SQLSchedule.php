@@ -138,9 +138,11 @@ class SQLSchedule implements ScheduleDB
         }
         $sqlStart = "SELECT MAX(js.scheduled_end) AS next_start ";
         $sqlStart .= "FROM job_schedule js ";
-        $sqlStart .= "INNER JOIN availability a ON js.process_id = a.process_id ";
+        // $sqlStart .= "INNER JOIN availability a ON js.process_id = a.process_id ";
         $sqlStart .= "WHERE js.scheduled_end > '";
         $sqlStart .= date("Y-m-d H:i:s", strtotime($start))."' ";
+        $sqlStart .= "AND is_complete = (0);";
+        // $sqlStart .= "AND js.process_id = ".$process->id.";";
 
         $conn = Conn::getDbConnection();
         $result = mysqli_query($conn, $sqlStart);

@@ -10,3 +10,4 @@ include_once("workflow.php");
 include_once("scheduleClass.php");
 include_once("job.php");
 include_once("label.php");
+include_once("reportProcessTime.php");

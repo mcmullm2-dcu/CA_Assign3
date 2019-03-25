@@ -30,11 +30,17 @@ if (isset($success)) {
     ?>
     <div class="form-group">
         <label for="job_no">Job Number:</label>
-        <input type="text" id="job_no" name="job_no" class="form-control">
+        <input type="text" id="job_no" name="job_no" required <?php
+        if (isset($old_job_no)) {
+            echo 'class="form-control is-invalid" value="'.$old_job_no.'"';
+        } else {
+            echo 'class="form-control"';
+        }
+        ?>>
     </div>
     <?php
     } else {
-        echo '<input type="hidden" name="job_no" value="'.$edit_job_no.'" />';
+        echo '<input type="hidden" id="job_no" name="job_no" value="'.$edit_job_no.'" />';
         $edit_job = $jobDb->getJob($edit_job_no);
     }
     ?>
@@ -44,18 +50,34 @@ if (isset($success)) {
             <?php
             $customers = $customerDb->listCustomerNames();
             foreach ($customers as $customer) {
-                echo '<option value="'.$customer->code.'">'.$customer->name.'</option>';
+                echo '<option value="'.$customer->code.'"';
+                if (isset($post_customer_code) && $customer->code == $post_customer_code) {
+                    echo ' selected';
+                }
+                echo '>'.$customer->name.'</option>';
             }
             ?>
         </select>
     </div>
     <div class="form-group">
         <label for="title">Job Title:</label>
-        <input type="text" id="title" name="title" class="form-control">
+        <input type="text" id="title" name="title" required class="form-control"<?php
+        if (isset($old_title)) {
+            echo 'value="'.$old_title.'"';
+        } elseif (isset($edit_title)) {
+            echo 'value="'.$edit_title.'"';
+        }
+        ?>>
     </div>
     <div class="form-group">
         <label for="deadline">Deadline:</label>
-        <input type="date" id="deadline" name="deadline" class="form-control">
+        <input type="date" id="deadline" name="deadline" required class="form-control"<?php
+         if (isset($old_deadline)) {
+            echo 'value="'.$old_deadline.'"';
+        } elseif (isset($post_deadline)) {
+            echo 'value="'.$post_deadline.'"';
+        }
+        ?>>
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
     <?php

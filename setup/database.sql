@@ -181,7 +181,7 @@ insert into dashboard (name, description, url) values ('My Accounts', 'View the 
 insert into dashboard (name, description, url) values ('Customers', 'Add or edit customer data.', 'customers.php');
 insert into dashboard (name, description, url) values ('Processes', 'Add or edit production processes.', 'processes.php');
 insert into dashboard (name, description, url) values ('Workflows', 'View production workflows.', 'workflows.php');
-insert into dashboard (name, description, url) values ('Jobs', 'Add, edit or cancel jobs.', 'jobs.php');
+insert into dashboard (name, description, url) values ('Jobs', 'Add or edit jobs.', 'jobs.php');
 insert into dashboard (name, description, url) values ('Schedule', 'Schedule jobs.', 'schedule.php');
 
 -- =======================================================================

@@ -24,7 +24,7 @@ if (isset($tasks) && count($tasks) > 0) {
     $unavailable = array();
     foreach ($tasks as $task) {
         if ($task->isAvailable()) {
-            writeTableLine($task);
+            writeTableLine($task, $edit_link);
         } else {
             array_push($unavailable, $task);
         }
@@ -33,7 +33,7 @@ if (isset($tasks) && count($tasks) > 0) {
     // Now print out tasks that are not yet available (e.g. a previous task
     // might not be complete yet)
     foreach ($unavailable as $task) {
-        writeTableLine($task);
+        writeTableLine($task, $edit_link);
     }
 
     echo '</tbody></table>';
@@ -43,7 +43,7 @@ if (isset($tasks) && count($tasks) > 0) {
     echo 'tasks to do!</div>';
 }
 
-function writeTableLine($task) {
+function writeTableLine($task, $edit_link) {
         echo '<tr';
         if (!$task->isAvailable()) {
             echo ' class="text-muted"';

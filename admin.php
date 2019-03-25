@@ -31,7 +31,7 @@ google.charts.setOnLoadCallback(drawChart);
 // Draw the chart and set the chart values
 function drawChart() {
     var data = google.visualization.arrayToDataTable([
-        ['Process', 'Scheduled Time']
+        ['Process', 'Est. Time']
         <?php
         foreach ($processTimes as $process) {
             echo ",['".$process->name."', ";
@@ -39,9 +39,11 @@ function drawChart() {
         }
         ?>
     ]);
+    var formatter = new google.visualization.NumberFormat({fractionDigits: 0, suffix:' mins'});
+    formatter.format(data, 1);
 
     // Optional; add a title and set the width and height of the chart
-    var options = {'title':'Scheduled Processes, in minutes', 'height': 400};
+    var options = {'title':'Scheduled Processes, in minutes', 'height': 400, 'legend':'none' };
 
     // Display the chart inside the <div> element with id="piechart"
     var chart = new google.visualization.BarChart(document.getElementById('chart'));

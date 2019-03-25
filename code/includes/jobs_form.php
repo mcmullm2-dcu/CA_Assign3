@@ -42,7 +42,7 @@ if (isset($success)) {
         <label for="customer">Customer:</label>
         <select id="customer" name="customer" class="form-control">
             <?php
-            $customers = $customerDb->listCustomers(null);
+            $customers = $customerDb->listCustomerNames();
             foreach ($customers as $customer) {
                 echo '<option value="'.$customer->code.'">'.$customer->name.'</option>';
             }

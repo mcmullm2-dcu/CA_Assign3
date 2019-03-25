@@ -53,6 +53,25 @@ class SQLCustomer implements CustomerDB
     }
 
     /**
+     * List all customers in the database, just returning their code and name.
+     */
+    public function listCustomerNames() {
+        $conn = Conn::getDbConnection();
+        $sql = "SELECT code, name ";
+        $sql .= "FROM customer ";
+        $sql .= "ORDER BY name;";
+        $result = mysqli_query($conn, $sql);
+
+        $customers = array();
+        while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+            $customer = new Customer($row['code'], $row['name'], null);
+            array_push($customers, $customer);
+        }
+
+        return $customers;
+    }
+
+    /**
      * Inserts a new customer into the database from a Customer instance.
      */
     public function insertCustomer($customer) {

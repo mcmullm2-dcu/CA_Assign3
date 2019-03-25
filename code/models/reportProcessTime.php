@@ -5,7 +5,7 @@
  */
 class ReportProcessTime
 {
-    public $processName;
+    public $name;
     public $time;
 
     /**
@@ -13,7 +13,7 @@ class ReportProcessTime
      */
     public function __construct($name, $time)
     {
-        $this->processName = $name;
+        $this->name = $name;
         $this->time = $time;
     }
 }

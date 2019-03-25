@@ -70,4 +70,38 @@ class Job
     {
         return (isset($this->schedule) && count($this->schedule) > 0);
     }
+
+    /**
+     * Get the total time scheduled for this job (in seconds).
+     */
+    public function totalScheduled()
+    {
+        if (!$this->isScheduled()) {
+            return 0;
+        }
+        $total = 0;
+        foreach ($this->schedule as $step) {
+            $total += $step->getScheduledTime();
+        }
+        return $total;
+    }
+
+    /**
+     * Get the percentage of this job complete
+     */
+    public function percentageComplete() {
+        if (!$this->isScheduled()) {
+            return 0;
+        }
+        $complete = 0;
+        foreach ($this->schedule as $step) {
+            if ($step->complete == "1") {
+                $complete += $step->getScheduledTime();
+            }
+        }
+        if ($complete == 0) {
+            return 0;
+        }
+        return 100 * ($complete / $this->totalScheduled());
+    }
 }

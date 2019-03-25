@@ -49,8 +49,8 @@ class Schedule
      */
     public function getScheduledTime()
     {
-        $startTimestamp = strtotime($start);
-        $endTimestamp = strtotime($end);
+        $startTimestamp = strtotime($this->start);
+        $endTimestamp = strtotime($this->end);
 
         return $endTimestamp - $startTimestamp;
     }

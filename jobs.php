@@ -14,14 +14,15 @@ if (!isset($dashboard)) {
 }
 
 $jobDb = $db->GetJobDB();
+$customerDb = $db->GetCustomerDB();
 $scheduleDb = $db->GetScheduleDB();
 
 // URL without query string, from https://stackoverflow.com/a/6975045/5233918
 $edit_link = strtok($_SERVER["REQUEST_URI"], '?');
 
-$mode = '';
+$mode = 'add';
 if (isset($_GET['mode'])) {
-    $edit_code = htmlspecialchars($_GET['code']);
+    $edit_job_no = htmlspecialchars($_GET['jobno']);
     $mode = htmlspecialchars($_GET['mode']);
 }
 
@@ -33,13 +34,13 @@ echo '<div class="col-sm-9">';
 include 'code/includes/jobs_list.php';
 echo '</div>';
 
-/* echo '<div class="col-sm-3">';
+echo '<div class="col-sm-3">';
 switch ($mode) {
-    case 'details':
-        echo 'Details';
+    case 'add':
+        include 'code/includes/jobs_form.php';
         break;
 }
-echo '</div>';*/
+echo '</div>';
 ?>
 
 </div>

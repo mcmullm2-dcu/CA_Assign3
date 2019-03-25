@@ -24,6 +24,7 @@ echo '<h4>Step 3: Scheduling</h4>';
 echo '<p>Job <strong>'.$job->jobNo.'</strong> has been scheduled as follows:</p>';
 echo '<ul>';
 $sequence = 0;
+$nextTime = date("Y-m-d H:i:s");
 foreach ($workflow->processes as $process) {
     echo '<li><strong>'.$process->name.'</strong>';
     if (!isset($process->availability)) {
@@ -31,7 +32,6 @@ foreach ($workflow->processes as $process) {
         $process = $processDb->getProcess($process->id);
         $process->workflowEstimateTime = $time;
     }
-    $nextTime = date("Y-m-d H:i:s");
     while ($process->workflowEstimateTime > 0) {
         $times = $scheduleDb->getNextSchedule($process, $nextTime);
         $availableStart = strtotime($times[0]);
@@ -43,14 +43,19 @@ foreach ($workflow->processes as $process) {
 
         if ($availableSeconds > $process->workflowEstimateTime) {
             // Set start and end time
-            $endTime = $availableStart+$process->workflowEstimateTime;
-            $end = date("Y-m-d H:i:s", $endTime);
+            $end = date("Y-m-d H:i:s", $availableStart+$process->workflowEstimateTime);
         } else {
             $end = date("Y-m-d H:i:s", $availableEnd);
         }
+
         $scheduleDb->setSchedule($job, $sequence++, $process, $start, $end);
         $process->workflowEstimateTime -= $availableSeconds;
+        $diff = strtotime($end) - strtotime($nextTime);
         $nextTime = $end;
+        if ($diff == 0) {
+            $timeFormatStart = date('H:i:s', strtotime($nextTime));
+            $nextTime = date('Y-m-d '.$timeFormatStart, strtotime($nextTime) + 60); // Helps prevent infinite loops
+        }
 
         echo '<br>'.date('d/m/Y', strtotime($start));
         echo ': '.date('H:i', strtotime($start));

@@ -41,6 +41,7 @@ if (isset($success)) {
     <?php
     } else {
         echo '<input type="hidden" id="job_no" name="job_no" value="'.$edit_job_no.'" />';
+        echo '<h5>Job '.$edit_job_no.'</h5>';
         $edit_job = $jobDb->getJob($edit_job_no);
     }
     ?>
@@ -51,7 +52,10 @@ if (isset($success)) {
             $customers = $customerDb->listCustomerNames();
             foreach ($customers as $customer) {
                 echo '<option value="'.$customer->code.'"';
-                if (isset($post_customer_code) && $customer->code == $post_customer_code) {
+                if (
+                    (isset($post_customer_code) && $customer->code == $post_customer_code)
+                    || (isset($edit_job) && $customer->code == $edit_job->customer->code)
+                ) {
                     echo ' selected';
                 }
                 echo '>'.$customer->name.'</option>';
@@ -66,6 +70,8 @@ if (isset($success)) {
             echo 'value="'.$old_title.'"';
         } elseif (isset($edit_title)) {
             echo 'value="'.$edit_title.'"';
+        } elseif (isset($edit_job)) {
+            echo 'value="'.$edit_job->title.'"';
         }
         ?>>
     </div>
@@ -76,6 +82,8 @@ if (isset($success)) {
             echo 'value="'.$old_deadline.'"';
         } elseif (isset($post_deadline)) {
             echo 'value="'.$post_deadline.'"';
+        } elseif (isset($edit_job)) {
+            echo 'value="'.date("Y-m-d", strtotime($edit_job->deadline)).'"';
         }
         ?>>
     </div>

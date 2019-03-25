@@ -71,12 +71,16 @@ echo '<p>'.$dashboard->description.'</p>';
 
 echo '<div class="row">';
 echo '<div class="col-sm-9">';
+$editable = true;
 include 'code/includes/jobs_list.php';
 echo '</div>';
 
 echo '<div class="col-sm-3">';
 switch ($mode) {
     case 'add':
+        include 'code/includes/jobs_form.php';
+        break;
+    case 'edit':
         include 'code/includes/jobs_form.php';
         break;
 }

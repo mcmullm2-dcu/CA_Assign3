@@ -49,6 +49,14 @@ if (isset($success)) {
             ?>
         </select>
     </div>
+    <div class="form-group">
+        <label for="title">Job Title:</label>
+        <input type="text" id="title" name="title" class="form-control">
+    </div>
+    <div class="form-group">
+        <label for="deadline">Deadline:</label>
+        <input type="date" id="deadline" name="deadline" class="form-control">
+    </div>
     <button type="submit" class="btn btn-primary">Submit</button>
     <?php
     if ($mode == "edit") {

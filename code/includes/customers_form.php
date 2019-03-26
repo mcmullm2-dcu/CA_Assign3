@@ -23,12 +23,14 @@ echo '</h4>';
 
 if (isset($error)) {
     echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">'.$error;
-    echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>';
+    echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close">';
+    echo '<span aria-hidden="true">&times;</span></button>';
     echo '</div>';
 }
 if (isset($success)) {
     echo '<div class="alert alert-success alert-dismissible fade show" role="alert">'.$success;
-    echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>';
+    echo '<button type="button" class="close" data-dismiss="alert" aria-label="Close">';
+    echo '<span aria-hidden="true">&times;</span></button>';
     echo '</div>';
 }
 ?>
